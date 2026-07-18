@@ -61,10 +61,12 @@ if (PRUNE) {
   backupDir(join(HOME, ".claude", "skills"));   // nơi Claude Code đọc skill
   backupDir(join(HOME, ".agents", "skills"));   // nơi `skills` CLI để file gốc
 }
+// --agent claude-code: chỉ cài cho Claude Code (tránh banner "Failed" từ các agent
+// khác như PromptScript, và không rải file sang ~/.junie, ~/.cursor…)
 run("Cài bộ skill THIẾT KẾ (Leonxlnx/taste-skill)",
-    "npx -y skills add Leonxlnx/taste-skill --global --copy -y");
+    "npx -y skills add Leonxlnx/taste-skill --global --copy --agent claude-code -y");
 run("Cài bộ skill ENGINEERING (mattpocock/skills)",
-    "npx -y skills add mattpocock/skills --global --copy -y");
+    "npx -y skills add mattpocock/skills --global --copy --agent claude-code -y");
 
 // ── 2. Plugin ponytail (dọn code) ────────────────────────────────────────
 run("Thêm marketplace ponytail",

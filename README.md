@@ -73,6 +73,14 @@ claude mcp list         # chrome-devtools ✔ Connected
 # mở phiên mới → gõ /tdd và /design-taste-frontend
 ```
 
+## Troubleshooting
+
+**Thấy banner đỏ `■ Failed to install … → PromptScript: PromptScript does not support
+global skill installation`?** → **KHÔNG phải lỗi.** Đó chỉ là 1 agent tên PromptScript
+không hỗ trợ cài global. Claude Code vẫn cài đủ (xem dòng `✓ (copied) → ~/.claude/skills/…`
+ngay phía trên, và tổng kết `✗ Lỗi: 0`). Bản mới đã thêm `--agent claude-code` nên
+không còn banner này.
+
 ## Gỡ cài
 
 ```bash
