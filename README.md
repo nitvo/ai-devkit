@@ -28,7 +28,7 @@ Chạy được trên **Windows / Linux / macOS**.
 ## Cách chạy
 
 ```bash
-git clone <URL-repo-này> ai-devkit
+git clone git@github.com:nitvo/ai-devkit.git
 cd ai-devkit
 node setup.mjs
 ```
