@@ -102,7 +102,8 @@ When there is not enough information, use `chore`.
 
 ## Scope rules
 
-Scope is optional.
+**Scope is required.** Conventional Commits treats it as optional; this
+standard does not. Every commit must carry a scope: `type(scope): description`.
 
 If the repository already has a convention, follow it. Otherwise: lowercase,
 short, reflecting the actual domain — for example `auth`, `payment`, `docker`,
@@ -110,6 +111,9 @@ short, reflecting the actual domain — for example `auth`, `payment`, `docker`,
 
 When unsure, infer it from the main module or directory, preferring
 lowercase-kebab-case.
+
+For a change that genuinely spans the whole repository, still pick a real
+broad scope such as `repo`, `setup`, or `build` — never drop the scope.
 
 ---
 

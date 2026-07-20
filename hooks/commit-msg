@@ -11,12 +11,12 @@ case "$header" in
   Merge*|Revert*|fixup!*|squash!*|'#'*) exit 0 ;;
 esac
 
-if ! printf '%s' "$header" | grep -Eq "^($TYPES)(\([a-z0-9._/-]+\))?!?: .+"; then
+if ! printf '%s' "$header" | grep -Eq "^($TYPES)\([a-z0-9._/-]+\)!?: .+"; then
   echo "" >&2
   echo "✗ Commit bị chặn — sai chuẩn Conventional Commits." >&2
   echo "" >&2
   echo "  Nhận được : $header" >&2
-  echo "  Cần dạng  : <type>[(scope)]: <mô tả>" >&2
+  echo "  Cần dạng  : <type>(<scope>): <mô tả>   — scope BẮT BUỘC" >&2
   echo "  Type hợp lệ: $(echo "$TYPES" | tr '|' ' ')" >&2
   echo "" >&2
   echo "  Ví dụ: feat(auth): add refresh token rotation" >&2
@@ -24,7 +24,7 @@ if ! printf '%s' "$header" | grep -Eq "^($TYPES)(\([a-z0-9._/-]+\))?!?: .+"; the
   exit 1
 fi
 
-desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)(\([a-z0-9._/-]+\))?!?: //")
+desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)\([a-z0-9._/-]+\)!?: //")
 if printf '%s' "$desc" | grep -q '[A-Z]'; then
   echo "" >&2
   echo "✗ Commit bị chặn — tiêu đề phải viết THƯỜNG hoàn toàn." >&2

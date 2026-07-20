@@ -174,7 +174,11 @@ chore
 
 ## Quy tắc Scope
 
-Scope là tùy chọn.
+**Scope là BẮT BUỘC.** Conventional Commits coi scope là tùy chọn, chuẩn này thì
+không. Mọi commit phải có scope: `type(scope): mô tả`.
+
+Thay đổi trải rộng cả repo thì vẫn chọn một scope rộng nhưng có thật (`repo`,
+`setup`, `build`) — không bao giờ bỏ trống scope.
 
 Nếu repository đã có convention thì phải tuân theo.
 
