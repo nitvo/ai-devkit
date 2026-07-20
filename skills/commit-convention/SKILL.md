@@ -118,6 +118,9 @@ lowercase-kebab-case.
 The short description must be in the present tense and start with a technical
 verb: add, update, fix, remove, rename, refactor, improve, optimize.
 
+**Write it entirely in lowercase** — including product names and acronyms
+(`github cli`, `claude code`, `url`, `pr`). Never capitalise the first letter.
+
 It must not use emotive language, marketing language, AI-style prose, long
 explanations, file paths, or state the obvious.
 
@@ -141,13 +144,16 @@ unnecessary content.
 
 ## Footer rules
 
-Add only when genuinely needed, for example:
+Add only when genuinely needed. Use the standard git trailer capitalisation
+exactly as shown — `Co-authored-by`, not `Co-Authored-By`:
 
 ```text
 Refs: #123
 Reviewed-by: Name
-Co-authored-by: Name
+Co-authored-by: Name <email>
 ```
+
+Trailers go in the last paragraph, separated from the body by a blank line.
 
 ---
 

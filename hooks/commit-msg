@@ -24,6 +24,17 @@ if ! printf '%s' "$header" | grep -Eq "^($TYPES)(\([a-z0-9._/-]+\))?!?: .+"; the
   exit 1
 fi
 
+desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)(\([a-z0-9._/-]+\))?!?: //")
+if printf '%s' "$desc" | grep -q '[A-Z]'; then
+  echo "" >&2
+  echo "✗ Commit bị chặn — tiêu đề phải viết THƯỜNG hoàn toàn." >&2
+  echo "" >&2
+  echo "  Nhận được : $header" >&2
+  echo "  Sửa thành : $(printf '%s' "$header" | tr '[:upper:]' '[:lower:]')" >&2
+  echo "" >&2
+  exit 1
+fi
+
 len=$(printf '%s' "$header" | wc -m | tr -d ' ')
 if [ "$len" -gt "$MAX_LEN" ]; then
   echo "" >&2

@@ -210,6 +210,8 @@ Mô tả ngắn phải:
 
 - Thì hiện tại.
 - Bắt đầu bằng động từ kỹ thuật.
+- **Viết thường hoàn toàn** — kể cả tên sản phẩm và từ viết tắt (`github cli`,
+  `claude code`, `url`, `pr`). Không viết hoa chữ cái đầu.
 
 Ví dụ:
 
@@ -271,15 +273,16 @@ Không:
 
 ## Quy tắc Footer
 
-Chỉ thêm khi thực sự cần.
-
-Ví dụ:
+Chỉ thêm khi thực sự cần. Viết đúng capitalization chuẩn của git trailer —
+`Co-authored-by`, KHÔNG phải `Co-Authored-By`:
 
 ```text
 Refs: #123
 Reviewed-by: Name
-Co-authored-by: Name
+Co-authored-by: Name <email>
 ```
+
+Trailer nằm ở đoạn cuối, cách body một dòng trống.
 
 ---
 
