@@ -45,6 +45,28 @@ Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 4. Cross-reference tới PR song song (nếu luồng 2 PR).
 5. Link ticket.
 
+### Reviewer, assignee, label — bắt buộc
+
+Mọi PR phải có đủ **3** thứ trước khi tạo:
+
+| Mục | Quy tắc |
+|---|---|
+| **Assignee** | Người tạo PR tự nhận (`@me`). Nếu người làm khác người tạo thì gán người làm. |
+| **Reviewer** | Tối thiểu 1. Là **người thật** → phải được user xác nhận, tuyệt đối không đoán tên. |
+| **Label** | Tối thiểu 1, suy từ loại nhánh. Chỉ dùng label **đã tồn tại** trong repo. |
+
+Ánh xạ loại nhánh → label (khớp theo tên label có sẵn, không cần trùng tuyệt đối):
+
+| Nhánh | Label thường gặp |
+|---|---|
+| `feature/` | `feature`, `enhancement` |
+| `bugfix/` | `bug`, `bugfix` |
+| `docs/` | `documentation`, `docs` |
+| `chore/` | `chore`, `maintenance` |
+
+**Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
+phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
+
 ### Luồng 2 PR
 
 Khi repo có **cả nhánh tích hợp và nhánh test**, một thay đổi đi bằng 2 PR:
@@ -78,6 +100,9 @@ Không hỏi những gì suy ra được. Dò theo thứ tự:
 | `COMPANY` | Org trong remote: `git remote get-url origin` → `github.com/<org>/…` |
 | `TARGET` | Suy từ nhánh đích: `staging`→`STG`, `develop`→`DEV`, `main`→`MAIN` |
 | Số PR | Có đủ nhánh tích hợp + test → 2 PR; chỉ `main` → 1 PR |
+| Label có sẵn | `gh label list` — chỉ chọn trong danh sách này |
+| Reviewer gợi ý | `CODEOWNERS` (gốc, `.github/`, `docs/`); nếu không có thì `gh pr list --state merged --limit 20 --json reviews` xem ai hay review |
+| Assignee | `gh api user --jq .login` → mặc định `@me` |
 
 ---
 
@@ -96,6 +121,8 @@ Luôn phải hỏi, không bao giờ tự bịa:
 
 - **Số ticket** — không suy ra từ tên nhánh nếu nhánh chưa đặt đúng chuẩn.
 - **Kết quả test** — chỉ ghi những gì thực sự đã chạy; chưa chạy thì ghi rõ chưa chạy.
+- **Reviewer** — gán review là gửi thông báo cho người thật. Được phép *đề xuất*
+  từ CODEOWNERS hoặc lịch sử review, nhưng phải user xác nhận mới gán.
 
 ---
 
@@ -105,13 +132,24 @@ Luôn phải hỏi, không bao giờ tự bịa:
 - Nhánh đích đúng chưa.
 - Nhánh đã push lên remote chưa.
 - Thay đổi có gọn trong một mối quan tâm không → lẫn nhiều việc thì nói rõ.
+- **Đã có đủ assignee, ít nhất 1 reviewer, ít nhất 1 label chưa.**
 
 ---
 
 ## 5. Duyệt trước khi tạo
 
-Tạo PR là hành động ra ngoài. **In title + body cho user xem và chờ đồng ý** rồi
-mới chạy `gh pr create`.
+Tạo PR là hành động ra ngoài. **In title + body + reviewer/assignee/label cho user
+xem và chờ đồng ý** rồi mới chạy:
+
+```bash
+gh pr create \
+  --base <nhánh-đích> \
+  --title "[COMPANY] [TARGET] <TICKET> <mô tả>" \
+  --body-file <file> \
+  --assignee @me \
+  --reviewer <user1>[,<user2>] \
+  --label <label>
+```
 
 ---
 
