@@ -3,6 +3,10 @@ name: pr-convention
 description: Chuẩn tạo nhánh và Pull Request cho mọi dự án — format nhánh, PR title, nội dung mô tả, luồng 2 PR. Tự dò tiền tố ticket / nhánh đích / tên tổ chức từ chính repo, thiếu thì hỏi. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
 ---
 
+> **Bản dịch để đọc hiểu — KHÔNG được cài.**
+> Bản chạy thật: [`skills/pr-convention/SKILL.md`](../../../skills/pr-convention/SKILL.md).
+> Sửa bản tiếng Anh trước, rồi cập nhật file này trong cùng commit.
+
 # Chuẩn nhánh & Pull Request
 
 Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo không có

@@ -75,10 +75,17 @@ claude mcp list         # chrome-devtools ✔ Connected
 
 ## Skill: bản cài vs bản đọc
 
+`docs/vi/` mirror đúng cấu trúc `skills/`, nên nhìn path là biết cặp nào với cặp nào:
+
+```text
+skills/<tên>/SKILL.md      ← tiếng Anh, ĐƯỢC CÀI
+docs/vi/<tên>/SKILL.md     ← tiếng Việt, chỉ để đọc
+```
+
 | Thư mục | Ngôn ngữ | Vai trò |
 |---|---|---|
 | `skills/*/SKILL.md` | **Tiếng Anh** | Bản **được cài** lên máy (`setup.mjs` chỉ chép `skills/`) |
-| `docs/vi/*.md` | Tiếng Việt | Chỉ để **đọc hiểu**, không được cài |
+| `docs/vi/*/SKILL.md` | Tiếng Việt | Chỉ để **đọc hiểu**, không được cài |
 
 Sửa skill thì **sửa bản tiếng Anh** (đó mới là bản chạy), rồi cập nhật bản
 tiếng Việt trong cùng commit để hai bên không trôi lệch.

@@ -3,6 +3,10 @@ name: commit-convention
 description: Sinh commit message chuẩn Conventional Commits cho repo enterprise (song ngữ EN + VI). Use whenever creating a git commit, writing or reviewing a commit message, running `git commit`, or when the user says "commit", "tạo commit", "viết commit message", "commit giúp tôi".
 ---
 
+> **Bản dịch để đọc hiểu — KHÔNG được cài.**
+> Bản chạy thật: [`skills/commit-convention/SKILL.md`](../../../skills/commit-convention/SKILL.md).
+> Sửa bản tiếng Anh trước, rồi cập nhật file này trong cùng commit.
+
 # Enterprise Conventional Commit Generator
 
 ## Vai trò
