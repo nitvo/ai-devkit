@@ -53,16 +53,23 @@ Mọi PR phải có đủ **3** thứ trước khi tạo:
 |---|---|
 | **Assignee** | Người tạo PR tự nhận (`@me`). Nếu người làm khác người tạo thì gán người làm. |
 | **Reviewer** | Tối thiểu 1. Là **người thật** → phải được user xác nhận, tuyệt đối không đoán tên. |
-| **Label** | Tối thiểu 1, suy từ loại nhánh. Chỉ dùng label **đã tồn tại** trong repo. |
+| **Label** | Tự chọn từ label sẵn có của repo. **1–3 cái sát nhất, tối đa 5.** Không gán tràn lan. |
 
-Ánh xạ loại nhánh → label (khớp theo tên label có sẵn, không cần trùng tuyệt đối):
+#### Chọn label
 
-| Nhánh | Label thường gặp |
-|---|---|
-| `feature/` | `feature`, `enhancement` |
-| `bugfix/` | `bug`, `bugfix` |
-| `docs/` | `documentation`, `docs` |
-| `chore/` | `chore`, `maintenance` |
+Luôn chạy `gh label list` trước, **chỉ chọn trong danh sách trả về** — khớp theo
+ý nghĩa, không cần trùng tên tuyệt đối (`enhancement` khớp cho `feature/`).
+
+Thứ tự ưu tiên, dừng khi đủ 1–3 cái:
+
+1. **Loại thay đổi** — suy từ nhánh: `feature/`→`feature`/`enhancement`,
+   `bugfix/`→`bug`, `docs/`→`documentation`, `chore/`→`chore`/`maintenance`.
+2. **Phạm vi** — chỉ khi diff rõ ràng thuộc một vùng: `backend`, `frontend`,
+   `infra`, `ci`, `database`, `security`…
+
+**Tuyệt đối không tự gán** các label là phán đoán của con người:
+ưu tiên (`P0`, `high-priority`), mức độ (`critical`, `blocker`), trạng thái
+(`needs-discussion`, `wontfix`, `breaking-change`). Thấy cần → **hỏi user**.
 
 **Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
 phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
@@ -108,8 +115,21 @@ Không hỏi những gì suy ra được. Dò theo thứ tự:
 
 ## 3. Hỏi khi không suy ra được
 
-Dò không ra, hoặc kết quả mâu thuẫn → **hỏi user**, không suy đoán, không mượn
-giá trị của dự án khác.
+**Rà bắt buộc trước MỖI lần tạo PR.** Đi hết checklist dưới; bất kỳ mục nào dò
+không ra, mâu thuẫn, hoặc **chỉ đoán được chứ không chắc** → **hỏi user**. Không
+suy đoán, không mượn giá trị của dự án khác, không im lặng bỏ qua.
+
+Checklist mỗi lần tạo PR:
+
+- [ ] Tiền tố + số ticket
+- [ ] Tên nhánh đúng mẫu
+- [ ] Nhánh đích
+- [ ] `COMPANY` và `TARGET` trong title
+- [ ] Số PR cần tạo (1 hay 2)
+- [ ] Assignee
+- [ ] Reviewer
+- [ ] Label (1–3, trong danh sách sẵn có)
+- [ ] Kết quả test có thật hay chưa chạy
 
 Cách hỏi:
 
