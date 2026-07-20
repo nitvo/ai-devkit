@@ -73,6 +73,26 @@ claude mcp list         # chrome-devtools ✔ Connected
 # mở phiên mới → gõ /tdd và /design-taste-frontend
 ```
 
+## Git hook chặn commit sai chuẩn
+
+`setup.mjs` cài `hooks/commit-msg` vào `~/.claude/git-hooks/` và đặt
+`git config --global core.hooksPath` → áp cho **mọi repo trên máy**.
+
+Chặn khi: sai chuẩn Conventional Commits, type không hợp lệ, hoặc tiêu đề > 50 ký tự.
+Bỏ qua: `Merge*`, `Revert*`, `fixup!`, `squash!`.
+
+```
+✗ Commit bị chặn — sai chuẩn Conventional Commits.
+  Nhận được : update stuff
+  Cần dạng  : <type>[(scope)]: <mô tả>
+```
+
+**Lưu ý:**
+- Repo dùng **Husky không bị ảnh hưởng** — Husky đặt `core.hooksPath` ở scope local, local thắng global.
+- Repo dùng `.git/hooks/commit-msg` thuần **sẽ bị bỏ qua** (đây là đánh đổi của `core.hooksPath` global).
+- Máy đã có `core.hooksPath` riêng: setup **không ghi đè**, chỉ cảnh báo.
+- Bỏ qua 1 lần: `git commit --no-verify`. Gỡ hẳn: `git config --global --unset core.hooksPath`.
+
 ## Troubleshooting
 
 **Thấy banner đỏ `■ Failed to install … → PromptScript: PromptScript does not support

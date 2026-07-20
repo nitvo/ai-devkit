@@ -14,7 +14,7 @@
 // nên bạn hoàn tác được. Idempotent: chạy lại nhiều lần vẫn an toàn.
 
 import { execSync } from "node:child_process";
-import { existsSync, mkdirSync, copyFileSync, writeFileSync, renameSync, readdirSync, cpSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, writeFileSync, renameSync, readdirSync, cpSync, chmodSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -81,6 +81,31 @@ if (existsSync(teamSkills)) {
     ok.push(`Chép ${names.length} skill của team (${names.join(", ")})`);
     console.log(`\n▶ Skill team → ${dest}: ${names.join(", ")}`);
   } catch (e) { fail.push("Skill team"); console.log(`  ✗ ${e.message}`); }
+}
+
+// ── 1c. Git hook chặn commit sai chuẩn (global qua core.hooksPath) ───────
+const hookSrc = join(HERE, "hooks");
+if (existsSync(hookSrc)) {
+  const hookDest = join(HOME, ".claude", "git-hooks");
+  let current = "";
+  try { current = execSync("git config --global core.hooksPath", { shell: true }).toString().trim(); } catch { /* chưa đặt */ }
+  if (current && current !== hookDest) {
+    console.log(`\n▶ ⚠ core.hooksPath đã trỏ tới: ${current}\n  → KHÔNG ghi đè. Tự trỏ sang ${hookDest} nếu muốn dùng hook của ai-devkit.`);
+    skip.push(`Git hook (core.hooksPath đang dùng ${current})`);
+  } else if (DRY) {
+    console.log(`\n▶ (dry-run) Sẽ cài hook → ${hookDest} và đặt core.hooksPath`);
+    skip.push("Git hook (dry-run)");
+  } else try {
+    mkdirSync(hookDest, { recursive: true });
+    for (const h of readdirSync(hookSrc)) {
+      const dst = join(hookDest, h);
+      copyFileSync(join(hookSrc, h), dst);
+      chmodSync(dst, 0o755);
+    }
+    execSync(`git config --global core.hooksPath "${hookDest}"`, { stdio: "ignore", shell: true });
+    ok.push("Git hook chặn commit sai chuẩn");
+    console.log(`\n▶ Git hook → ${hookDest} (core.hooksPath đã đặt)`);
+  } catch (e) { fail.push("Git hook"); console.log(`  ✗ ${e.message}`); }
 }
 
 // ── 2. Plugin ponytail (dọn code) ────────────────────────────────────────

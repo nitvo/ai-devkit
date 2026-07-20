@@ -1,0 +1,36 @@
+#!/bin/sh
+# ai-devkit — chặn commit message sai chuẩn Conventional Commits.
+# Cài global qua core.hooksPath (xem setup.mjs). Bỏ qua: merge/revert/fixup/squash.
+
+MAX_LEN=50
+TYPES='feat|fix|refactor|perf|docs|test|build|ci|chore|infra|revert'
+
+header=$(head -n1 "$1")
+
+case "$header" in
+  Merge*|Revert*|fixup!*|squash!*|'#'*) exit 0 ;;
+esac
+
+if ! printf '%s' "$header" | grep -Eq "^($TYPES)(\([a-z0-9._/-]+\))?!?: .+"; then
+  echo "" >&2
+  echo "✗ Commit bị chặn — sai chuẩn Conventional Commits." >&2
+  echo "" >&2
+  echo "  Nhận được : $header" >&2
+  echo "  Cần dạng  : <type>[(scope)]: <mô tả>" >&2
+  echo "  Type hợp lệ: $(echo "$TYPES" | tr '|' ' ')" >&2
+  echo "" >&2
+  echo "  Ví dụ: feat(auth): add refresh token rotation" >&2
+  echo "" >&2
+  exit 1
+fi
+
+len=$(printf '%s' "$header" | wc -m | tr -d ' ')
+if [ "$len" -gt "$MAX_LEN" ]; then
+  echo "" >&2
+  echo "✗ Commit bị chặn — tiêu đề $len ký tự, tối đa $MAX_LEN." >&2
+  echo "  $header" >&2
+  echo "" >&2
+  exit 1
+fi
+
+exit 0
