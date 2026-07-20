@@ -21,13 +21,15 @@ Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo khô
 
 Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (ví dụ `SPR-42`).
 
+Tiền tố nhánh chính là **type của Conventional Commits** — cùng chữ với commit
+và với label `type:`.
+
 | Mẫu | Dùng cho |
 |---|---|
-| `feature/<TICKET>` | Tính năng mới |
-| `bugfix/<TICKET>` | Sửa lỗi |
-| `docs/<TICKET>` | Chỉ thay đổi tài liệu |
-| `chore/<TICKET>` | Bảo trì |
-| `<loại>/<TICKET>_<M>` | Bản cherry-pick sang nhánh test. `M` = lần giao, bắt đầu từ `1`, tăng mỗi lần giao lại sau khi sửa |
+| `<type>/<TICKET>` | `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `ci/`, `build/`, `chore/` |
+| `<type>/<TICKET>_<M>` | Bản cherry-pick sang nhánh test. `M` = lần giao, bắt đầu từ `1`, tăng mỗi lần giao lại sau khi sửa |
+
+Ví dụ: `build/SPR-8`, rồi `build/SPR-8_1` cho bản cherry-pick.
 
 ### PR title
 
@@ -38,6 +40,8 @@ Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (v
 - `COMPANY` — tổ chức sở hữu ticket.
 - `TARGET` — viết tắt nhánh đích (`STG`, `DEV`, `MAIN`).
 - Mô tả: thì hiện tại, bắt đầu bằng động từ, không dấu chấm cuối.
+- **Viết hoa chữ đầu** (sentence case): `Configure npm publishing`. Khác với
+  commit subject — cái đó viết thường hoàn toàn.
 
 Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
@@ -57,23 +61,25 @@ Mọi PR phải có đủ **3** thứ trước khi tạo:
 |---|---|
 | **Assignee** | Người tạo PR tự nhận (`@me`). Nếu người làm khác người tạo thì gán người làm. |
 | **Reviewer** | Tối thiểu 1. Là **người thật** → phải được user xác nhận, tuyệt đối không đoán tên. |
-| **Label** | Tự chọn từ label sẵn có của repo. **1–3 cái sát nhất, tối đa 5.** Không gán tràn lan. |
+| **Label** | Đúng **3 cái**, mỗi cái một nhóm: `target:`, `type:`, `area:`. Không thêm gì khác. |
 
 #### Chọn label
 
-Luôn chạy `gh label list` trước, **chỉ chọn trong danh sách trả về** — khớp theo
-ý nghĩa, không cần trùng tên tuyệt đối (`enhancement` khớp cho `feature/`).
+Chạy `gh label list` trước, **chỉ chọn trong danh sách trả về**.
 
-Thứ tự ưu tiên, dừng khi đủ 1–3 cái:
+Repo dùng label có namespace thì gán đúng một cái từ mỗi nhóm sau — không hơn không kém:
 
-1. **Loại thay đổi** — suy từ nhánh: `feature/`→`feature`/`enhancement`,
-   `bugfix/`→`bug`, `docs/`→`documentation`, `chore/`→`chore`/`maintenance`.
-2. **Phạm vi** — chỉ khi diff rõ ràng thuộc một vùng: `backend`, `frontend`,
-   `infra`, `ci`, `database`, `security`…
+| Nhóm | Suy từ | Ví dụ |
+|---|---|---|
+| `target:` | Nhánh đích | `target: staging`, `target: develop`, `target: main` |
+| `type:` | Loại thay đổi, trùng chữ với tiền tố nhánh và type của commit | `type: build`, `type: feature`, `type: fix` |
+| `area:` | Vùng code bị đụng | `area: ci`, `area: docs`, `area: skills`, `area: tooling` |
 
-**Tuyệt đối không tự gán** các label là phán đoán của con người:
-ưu tiên (`P0`, `high-priority`), mức độ (`critical`, `blocker`), trạng thái
-(`needs-discussion`, `wontfix`, `breaking-change`). Thấy cần → **hỏi user**.
+Repo có thể còn nhiều nhóm khác — `priority:`, `severity:`, `status:`, `size:`,
+`impact:`, `changelog:`, `quality:`. **Tuyệt đối không tự gán** mấy nhóm này, vì
+chúng là phán đoán triage của con người. Thấy cần thì **hỏi user**.
+
+Repo không dùng namespace thì chọn label thường sát nghĩa nhất, vẫn **tối đa 1–3**.
 
 **Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
 phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
@@ -82,10 +88,10 @@ phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép t
 
 Khi repo có **cả nhánh tích hợp và nhánh test**, một thay đổi đi bằng 2 PR:
 
-1. `feature/<TICKET>` → nhánh tích hợp.
-2. `feature/<TICKET>_<M>` → nhánh test (cherry-pick từ PR 1).
+1. `<type>/<TICKET>` → nhánh tích hợp.
+2. `<type>/<TICKET>_<M>` → nhánh test (cherry-pick từ PR 1).
 
-Test phát hiện lỗi: sửa trên `feature/<TICKET>`, tạo `feature/<TICKET>_<M+1>`,
+Test phát hiện lỗi: sửa trên `<type>/<TICKET>`, tạo `<type>/<TICKET>_<M+1>`,
 cherry-pick lại. Phát hành = PR từ nhánh tích hợp lên nhánh production.
 
 Repo chỉ có một nhánh chính → **chỉ 1 PR**, bỏ qua toàn bộ phần cherry-pick.
@@ -132,7 +138,7 @@ Checklist mỗi lần tạo PR:
 - [ ] Số PR cần tạo (1 hay 2)
 - [ ] Assignee
 - [ ] Reviewer
-- [ ] Label (1–3, trong danh sách sẵn có)
+- [ ] Label — mỗi nhóm một cái: `target:`, `type:`, `area:`
 - [ ] Kết quả test có thật hay chưa chạy
 
 Cách hỏi:
@@ -156,7 +162,7 @@ Luôn phải hỏi, không bao giờ tự bịa:
 - Nhánh đích đúng chưa.
 - Nhánh đã push lên remote chưa.
 - Thay đổi có gọn trong một mối quan tâm không → lẫn nhiều việc thì nói rõ.
-- **Đã có đủ assignee, ít nhất 1 reviewer, ít nhất 1 label chưa.**
+- **Đã có đủ assignee, ít nhất 1 reviewer, và đủ 3 label chưa.**
 
 ---
 

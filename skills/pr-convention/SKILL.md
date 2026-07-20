@@ -18,13 +18,15 @@ repositories with no `CONTRIBUTING.md`. If the repository **does** have a
 Short-lived branches cut from the integration branch. `<TICKET>` is the ticket
 id (for example `SPR-42`).
 
+The prefix is the **Conventional Commits type** of the change — the same word
+used in the commit and in the `type:` label.
+
 | Pattern | Use case |
 |---|---|
-| `feature/<TICKET>` | New feature |
-| `bugfix/<TICKET>` | Bug fix |
-| `docs/<TICKET>` | Documentation-only change |
-| `chore/<TICKET>` | Maintenance task |
+| `<type>/<TICKET>` | `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `ci/`, `build/`, `chore/` |
 | `<type>/<TICKET>_<M>` | Cherry-pick to the test branch. `M` is the delivery number, starting at `1`, incremented on each re-delivery after a fix |
+
+Example: `build/SPR-8`, then `build/SPR-8_1` for the cherry-pick.
 
 ### PR title
 
@@ -35,6 +37,8 @@ id (for example `SPR-42`).
 - `COMPANY` — the organization that owns the ticket.
 - `TARGET` — abbreviated target branch (`STG`, `DEV`, `MAIN`).
 - Description: present tense, starts with a verb, no trailing period.
+- **Sentence case** — capitalise the first word only: `Configure npm publishing`.
+  This differs from commit subjects, which are entirely lowercase.
 
 Example: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
@@ -54,24 +58,28 @@ Every PR must have all **three** before it is created:
 |---|---|
 | **Assignee** | The PR author self-assigns (`@me`). If the implementer differs from the author, assign the implementer. |
 | **Reviewer** | At least one. This is a **real person** — the user must confirm; never guess a name. |
-| **Label** | Chosen from the repository's existing labels. **1–3 most relevant, 5 maximum.** Do not spray labels. |
+| **Label** | Exactly **three**, one from each of `target:`, `type:`, `area:`. Nothing else. |
 
 #### Choosing labels
 
-Always run `gh label list` first and **choose only from what it returns**. Match
-by meaning, not exact name (`enhancement` is a fine match for `feature/`).
+Run `gh label list` first and **choose only from what it returns**.
 
-Priority order — stop once you have 1–3:
+When the repository uses namespaced labels, apply exactly one from each of these
+three namespaces — no more, no less:
 
-1. **Change type**, derived from the branch: `feature/`→`feature`/`enhancement`,
-   `bugfix/`→`bug`, `docs/`→`documentation`, `chore/`→`chore`/`maintenance`.
-2. **Scope**, only when the diff clearly belongs to one area: `backend`,
-   `frontend`, `infra`, `ci`, `database`, `security`.
+| Namespace | Derived from | Example |
+|---|---|---|
+| `target:` | The base branch | `target: staging`, `target: develop`, `target: main` |
+| `type:` | The change type, same word as the branch prefix and the commit type | `type: build`, `type: feature`, `type: fix`, `type: docs` |
+| `area:` | The part of the codebase the diff touches | `area: ci`, `area: docs`, `area: skills`, `area: tooling` |
 
-**Never self-assign labels that encode human judgement**: priority (`P0`,
-`high-priority`), severity (`critical`, `blocker`), status
-(`needs-discussion`, `wontfix`, `breaking-change`). If one seems needed, **ask
+A repository may carry many more namespaces — `priority:`, `severity:`,
+`status:`, `size:`, `impact:`, `changelog:`, `quality:`. **Never self-assign
+any of them.** They encode human triage judgement. If one seems needed, **ask
 the user**.
+
+When the repository has no namespaced labels, fall back to the closest plain
+labels by meaning (`enhancement` for a feature), still **1–3 maximum**.
 
 **Never create new labels** — that changes repository configuration. If no
 suitable label exists, ask the user to pick from the existing list, or ask
@@ -82,11 +90,11 @@ permission to create one.
 When the repository has **both an integration branch and a test branch**, one
 change ships as two PRs:
 
-1. `feature/<TICKET>` → integration branch.
-2. `feature/<TICKET>_<M>` → test branch (cherry-picked from PR 1).
+1. `<type>/<TICKET>` → integration branch.
+2. `<type>/<TICKET>_<M>` → test branch (cherry-picked from PR 1).
 
-If testing finds a bug: fix on `feature/<TICKET>`, create
-`feature/<TICKET>_<M+1>`, cherry-pick again. A release is a PR from the
+If testing finds a bug: fix on `<type>/<TICKET>`, create
+`<type>/<TICKET>_<M+1>`, cherry-pick again. A release is a PR from the
 integration branch to the production branch.
 
 If the repository has only one main branch → **a single PR**; skip the
@@ -136,7 +144,7 @@ Checklist for every PR:
 - [ ] Number of PRs to create (1 or 2)
 - [ ] Assignee
 - [ ] Reviewer
-- [ ] Labels (1–3, from the existing list)
+- [ ] Labels — one each of `target:`, `type:`, `area:`
 - [ ] Test results — actually run, or explicitly not run
 
 How to ask:
@@ -163,7 +171,7 @@ Never fabricate, always ask:
 - Is the target branch correct.
 - Has the branch been pushed to the remote.
 - Is the change scoped to one concern → if it mixes several, say so.
-- Are assignee, at least one reviewer, and at least one label all present.
+- Are assignee, at least one reviewer, and all three labels present.
 
 ---
 
