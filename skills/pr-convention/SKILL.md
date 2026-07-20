@@ -34,14 +34,36 @@ không tự chọn bên nào.
   cherry-pick vào `develop`) — nếu có thì tạo đủ, đúng thứ tự, và cross-reference
   lẫn nhau.
 
-## 3. Kiểm tra trước khi tạo
+## 3. Chốt đủ thông tin — thiếu thì HỎI
+
+Bám sát đúng các mục CONTRIBUTING.md đã nêu. Với **mỗi** mục dưới đây phải rút ra
+được **một câu trả lời duy nhất**. Nếu thiếu, mơ hồ, hoặc file **tự mâu thuẫn** →
+**hỏi user đúng mục đó**, không suy đoán, không im lặng chọn một bên.
+
+| Cần chốt | Phải hỏi khi |
+|---|---|
+| Mẫu tên nhánh + tiền tố ticket | Tiền tố có vẻ là của dự án khác, hoặc không nêu |
+| Nhánh đích | Doc nhắc một nhánh mà **không định nghĩa** vai trò, hoặc nhánh đó không tồn tại trên remote |
+| Format PR title + giá trị từng thẻ | **Quy tắc ghi một đằng, ví dụ ghi một nẻo** |
+| Mục bắt buộc trong body | Liệt kê chung chung, không rõ mục nào bắt buộc |
+| Số PR phải tạo | Luồng nhiều nhánh mô tả không đủ rõ |
+| Tracker của ticket | Doc nhắc **nhiều hơn một** tracker |
+
+Quy tắc hỏi:
+
+- Gộp **tất cả** câu hỏi vào **một lượt**, kèm phương án đề xuất để user chỉ cần
+  xác nhận — không hỏi lắt nhắt từng câu.
+- Trích nguyên văn dòng gây mơ hồ (kèm số dòng) để user biết đang hỏi về chỗ nào.
+- Khi quy tắc và ví dụ mâu thuẫn: **không tự chọn cái nào**, hỏi cái nào đúng.
+
+## 4. Kiểm tra trước khi tạo
 
 - Tên nhánh hiện tại có khớp mẫu không → không khớp thì báo và đề xuất tên đúng.
 - Nhánh đích có đúng theo chuẩn không.
 - Nhánh đã push lên remote chưa.
 - Thay đổi có gọn trong một mối quan tâm không → nếu lẫn nhiều việc, nói rõ.
 
-## 4. Sinh PR
+## 5. Sinh PR
 
 - Title đúng format đã trích được, không thêm bớt.
 - Body đủ các mục bắt buộc.
@@ -49,7 +71,7 @@ không tự chọn bên nào.
 - Nếu chuẩn yêu cầu kết quả test → chỉ ghi những gì **thực sự đã chạy**; chưa
   chạy thì ghi rõ là chưa chạy.
 
-## 5. Duyệt trước khi tạo
+## 6. Duyệt trước khi tạo
 
 Tạo PR là hành động ra ngoài. **In title + body ra cho user xem và chờ đồng ý**
 rồi mới chạy `gh pr create`.
