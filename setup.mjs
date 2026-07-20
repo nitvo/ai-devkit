@@ -14,7 +14,7 @@
 // nên bạn hoàn tác được. Idempotent: chạy lại nhiều lần vẫn an toàn.
 
 import { execSync } from "node:child_process";
-import { existsSync, mkdirSync, copyFileSync, writeFileSync, renameSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, writeFileSync, renameSync, readdirSync, cpSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -67,6 +67,21 @@ run("Cài bộ skill THIẾT KẾ (Leonxlnx/taste-skill)",
     "npx -y skills add Leonxlnx/taste-skill --global --copy --agent claude-code -y");
 run("Cài bộ skill ENGINEERING (mattpocock/skills)",
     "npx -y skills add mattpocock/skills --global --copy --agent claude-code -y");
+
+// ── 1b. Skill riêng của team (thư mục skills/ trong repo này) ────────────
+// Chạy SAU 2 bộ chuẩn để không bị bước dọn-sạch xoá mất.
+const teamSkills = join(HERE, "skills");
+if (existsSync(teamSkills)) {
+  const names = readdirSync(teamSkills);
+  if (DRY) { console.log(`\n▶ (dry-run) Sẽ chép ${names.length} skill của team: ${names.join(", ")}`); skip.push("Skill team (dry-run)"); }
+  else try {
+    const dest = join(HOME, ".claude", "skills");
+    mkdirSync(dest, { recursive: true });
+    for (const n of names) cpSync(join(teamSkills, n), join(dest, n), { recursive: true });
+    ok.push(`Chép ${names.length} skill của team (${names.join(", ")})`);
+    console.log(`\n▶ Skill team → ${dest}: ${names.join(", ")}`);
+  } catch (e) { fail.push("Skill team"); console.log(`  ✗ ${e.message}`); }
+}
 
 // ── 2. Plugin ponytail (dọn code) ────────────────────────────────────────
 run("Thêm marketplace ponytail",
