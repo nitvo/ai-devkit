@@ -1,90 +1,123 @@
 ---
 name: pr-convention
-description: Tạo Pull Request đúng chuẩn RIÊNG của từng repo — đọc CONTRIBUTING.md (hoặc PR đã merge) để lấy quy ước đặt tên nhánh, format PR title và các mục bắt buộc trong mô tả. Use whenever creating or preparing a pull request, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
+description: Chuẩn tạo nhánh và Pull Request cho mọi dự án — format nhánh, PR title, nội dung mô tả, luồng 2 PR. Tự dò tiền tố ticket / nhánh đích / tên tổ chức từ chính repo, thiếu thì hỏi. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
 ---
 
-# Pull Request theo chuẩn của repo
+# Chuẩn nhánh & Pull Request
 
-Mỗi repo có chuẩn riêng. **KHÔNG áp một format cố định.** Luôn đọc chuẩn của repo
-hiện tại rồi làm theo. Chuẩn của repo luôn thắng quy tắc chung.
+Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo không có
+`CONTRIBUTING.md`. Nếu repo **có** `CONTRIBUTING.md` hoặc PR template thì **file
+đó thắng** — đọc và theo nó.
 
-## 1. Tìm nguồn chuẩn — theo thứ tự ưu tiên
+---
 
-1. `CONTRIBUTING.md` (gốc repo, hoặc `.github/CONTRIBUTING.md`)
-2. `.github/PULL_REQUEST_TEMPLATE.md` / `.github/pull_request_template.md`
-3. `docs/` — file về workflow, branching, contributing
-4. PR đã merge gần đây:
-   `gh pr list --state merged --limit 20 --json title,baseRefName,headRefName`
-5. Tên nhánh đang tồn tại: `git branch -r`
+## 1. Chuẩn mặc định
 
-Dừng ở nguồn đầu tiên đủ thông tin.
+### Nhánh
 
-**Nếu tài liệu (1–3) mâu thuẫn với thực tế (4–5)** — ví dụ doc mô tả nhánh
-`staging` nhưng remote chỉ có `main` — thì **nêu rõ khác biệt và hỏi user**,
-không tự chọn bên nào.
+Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (ví dụ `SPR-42`).
 
-## 2. Trích các thông tin sau
-
-- Mẫu đặt tên nhánh (kèm tiền tố ticket nếu có).
-- Nhánh đích.
-- Format PR title.
-- Các mục bắt buộc trong body.
-- Quy tắc merge (squash / merge commit) và số approval.
-- Có cần **nhiều PR** cho một thay đổi không (ví dụ một PR vào `staging`, một PR
-  cherry-pick vào `develop`) — nếu có thì tạo đủ, đúng thứ tự, và cross-reference
-  lẫn nhau.
-
-## 3. Chốt đủ thông tin — thiếu thì HỎI
-
-Bám sát đúng các mục CONTRIBUTING.md đã nêu. Với **mỗi** mục dưới đây phải rút ra
-được **một câu trả lời duy nhất**. Nếu thiếu, mơ hồ, hoặc file **tự mâu thuẫn** →
-**hỏi user đúng mục đó**, không suy đoán, không im lặng chọn một bên.
-
-| Cần chốt | Phải hỏi khi |
+| Mẫu | Dùng cho |
 |---|---|
-| Mẫu tên nhánh + tiền tố ticket | Tiền tố có vẻ là của dự án khác, hoặc không nêu |
-| Nhánh đích | Doc nhắc một nhánh mà **không định nghĩa** vai trò, hoặc nhánh đó không tồn tại trên remote |
-| Format PR title + giá trị từng thẻ | **Quy tắc ghi một đằng, ví dụ ghi một nẻo** |
-| Mục bắt buộc trong body | Liệt kê chung chung, không rõ mục nào bắt buộc |
-| Số PR phải tạo | Luồng nhiều nhánh mô tả không đủ rõ |
-| Tracker của ticket | Doc nhắc **nhiều hơn một** tracker |
+| `feature/<TICKET>` | Tính năng mới |
+| `bugfix/<TICKET>` | Sửa lỗi |
+| `docs/<TICKET>` | Chỉ thay đổi tài liệu |
+| `chore/<TICKET>` | Bảo trì |
+| `<loại>/<TICKET>_<M>` | Bản cherry-pick sang nhánh test. `M` = lần giao, bắt đầu từ `1`, tăng mỗi lần giao lại sau khi sửa |
 
-Quy tắc hỏi:
+### PR title
+
+```text
+[COMPANY] [TARGET] <TICKET> <Mô tả mệnh lệnh>
+```
+
+- `COMPANY` — tổ chức sở hữu ticket.
+- `TARGET` — viết tắt nhánh đích (`STG`, `DEV`, `MAIN`).
+- Mô tả: thì hiện tại, bắt đầu bằng động từ, không dấu chấm cuối.
+
+Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
+
+### Nội dung PR — các mục bắt buộc
+
+1. Mô tả ngắn thay đổi làm gì.
+2. Các điểm triển khai đáng lưu ý.
+3. Kết quả test kèm bằng chứng (output, log, ảnh) nếu có.
+4. Cross-reference tới PR song song (nếu luồng 2 PR).
+5. Link ticket.
+
+### Luồng 2 PR
+
+Khi repo có **cả nhánh tích hợp và nhánh test**, một thay đổi đi bằng 2 PR:
+
+1. `feature/<TICKET>` → nhánh tích hợp.
+2. `feature/<TICKET>_<M>` → nhánh test (cherry-pick từ PR 1).
+
+Test phát hiện lỗi: sửa trên `feature/<TICKET>`, tạo `feature/<TICKET>_<M+1>`,
+cherry-pick lại. Phát hành = PR từ nhánh tích hợp lên nhánh production.
+
+Repo chỉ có một nhánh chính → **chỉ 1 PR**, bỏ qua toàn bộ phần cherry-pick.
+
+### Review & merge
+
+- Tối thiểu 1 approval trước khi merge.
+- Squash merge là mặc định cho nhánh tích hợp và nhánh test.
+- **Khi squash: không lấy PR title làm commit message.** PR title có tiền tố
+  `[COMPANY] [TARGET]` nên không đúng Conventional Commits. Soạn commit message
+  riêng theo skill `commit-convention`.
+
+---
+
+## 2. Tự dò biến của dự án
+
+Không hỏi những gì suy ra được. Dò theo thứ tự:
+
+| Biến | Cách dò |
+|---|---|
+| Tiền tố ticket | `git branch -r` và `git log --oneline -50`, tìm mẫu `[A-Z]{2,}-\d+` |
+| Nhánh đích | `git branch -r` — xem có `staging`, `develop`, `main`/`master` không |
+| `COMPANY` | Org trong remote: `git remote get-url origin` → `github.com/<org>/…` |
+| `TARGET` | Suy từ nhánh đích: `staging`→`STG`, `develop`→`DEV`, `main`→`MAIN` |
+| Số PR | Có đủ nhánh tích hợp + test → 2 PR; chỉ `main` → 1 PR |
+
+---
+
+## 3. Hỏi khi không suy ra được
+
+Dò không ra, hoặc kết quả mâu thuẫn → **hỏi user**, không suy đoán, không mượn
+giá trị của dự án khác.
+
+Cách hỏi:
 
 - Gộp **tất cả** câu hỏi vào **một lượt**, kèm phương án đề xuất để user chỉ cần
-  xác nhận — không hỏi lắt nhắt từng câu.
-- Trích nguyên văn dòng gây mơ hồ (kèm số dòng) để user biết đang hỏi về chỗ nào.
-- Khi quy tắc và ví dụ mâu thuẫn: **không tự chọn cái nào**, hỏi cái nào đúng.
+  xác nhận. Không hỏi lắt nhắt.
+- Nêu rõ đã dò được gì và vì sao chưa chắc.
+
+Luôn phải hỏi, không bao giờ tự bịa:
+
+- **Số ticket** — không suy ra từ tên nhánh nếu nhánh chưa đặt đúng chuẩn.
+- **Kết quả test** — chỉ ghi những gì thực sự đã chạy; chưa chạy thì ghi rõ chưa chạy.
+
+---
 
 ## 4. Kiểm tra trước khi tạo
 
-- Tên nhánh hiện tại có khớp mẫu không → không khớp thì báo và đề xuất tên đúng.
-- Nhánh đích có đúng theo chuẩn không.
+- Tên nhánh hiện tại khớp mẫu chưa → chưa khớp thì báo và đề xuất tên đúng.
+- Nhánh đích đúng chưa.
 - Nhánh đã push lên remote chưa.
-- Thay đổi có gọn trong một mối quan tâm không → nếu lẫn nhiều việc, nói rõ.
+- Thay đổi có gọn trong một mối quan tâm không → lẫn nhiều việc thì nói rõ.
 
-## 5. Sinh PR
+---
 
-- Title đúng format đã trích được, không thêm bớt.
-- Body đủ các mục bắt buộc.
-- Nếu chuẩn yêu cầu link ticket → **hỏi user số ticket**, tuyệt đối không bịa.
-- Nếu chuẩn yêu cầu kết quả test → chỉ ghi những gì **thực sự đã chạy**; chưa
-  chạy thì ghi rõ là chưa chạy.
+## 5. Duyệt trước khi tạo
 
-## 6. Duyệt trước khi tạo
+Tạo PR là hành động ra ngoài. **In title + body cho user xem và chờ đồng ý** rồi
+mới chạy `gh pr create`.
 
-Tạo PR là hành động ra ngoài. **In title + body ra cho user xem và chờ đồng ý**
-rồi mới chạy `gh pr create`.
-
-## Khi repo chưa có chuẩn nào
-
-Không có `CONTRIBUTING.md`, không có template, không có PR mẫu → hỏi user 3 điều:
-nhánh đích, format title, mục bắt buộc trong body. **Không mượn chuẩn của repo khác.**
+---
 
 ## Cấm
 
-- Bịa số ticket / Jira ID.
-- Bịa kết quả test hoặc bằng chứng.
-- Emoji, ngôn ngữ marketing, văn phong AI.
+- Bịa số ticket, mã Jira, kết quả test, bằng chứng.
+- Emoji, ngôn ngữ marketing, văn phong AI trong title/body.
 - Tự chạy `gh pr create` khi user chưa duyệt.
 - Tự đổi tên nhánh hoặc force-push mà không hỏi.
