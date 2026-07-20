@@ -25,6 +25,13 @@ Chạy được trên **Windows / Linux / macOS**.
 
 **Node.js ≥ 22**, **Claude Code** (CLI `claude`), **Google Chrome**, **git**.
 
+**GitHub CLI (`gh`)** — skill `pr-convention` cần nó để đọc label và tạo PR.
+`setup.mjs` tự cài nếu máy có `brew` (macOS) hoặc `winget` (Windows); Linux thì
+báo hướng dẫn để bạn tự cài (tránh đụng `sudo`).
+
+> Sau khi cài, **tự chạy `gh auth login`** — đăng nhập là thao tác tương tác của
+> từng người, script không làm thay.
+
 ## Cách chạy
 
 ```bash

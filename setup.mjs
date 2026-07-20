@@ -56,6 +56,36 @@ catch { console.error("\n✗ Không tìm thấy Claude Code CLI (`claude`). Cài
 console.log(`\n✅ Node ${process.versions.node}, Claude Code CLI OK.`);
 console.log(DRY ? "🔍 DRY-RUN — không thay đổi gì thật." : (PRUNE ? "🧹 Chế độ ĐỒNG BỘ (dọn sạch skill cũ + cài lại)." : "➕ Chế độ chỉ-thêm (giữ skill sẵn có)."));
 
+// ── 0b. GitHub CLI (gh) — skill pr-convention cần để đọc label / tạo PR ──
+const hasCmd = (c) => { try { execSync(`${c} --version`, { stdio: "ignore", shell: true }); return true; } catch { return false; } };
+if (hasCmd("gh")) {
+  skip.push("gh CLI (đã có)");
+} else if (DRY) {
+  console.log("\n▶ (dry-run) Sẽ cài GitHub CLI (gh)");
+  skip.push("gh CLI (dry-run)");
+} else {
+  // Chỉ dùng package manager KHÔNG cần sudo. Linux để user tự cài.
+  const pm = IS_WIN
+    ? { need: "winget", cmd: "winget install --id GitHub.cli -e --silent --accept-package-agreements --accept-source-agreements" }
+    : process.platform === "darwin"
+      ? { need: "brew", cmd: "brew install gh" }
+      : null;
+  if (pm && hasCmd(pm.need)) {
+    run("Cài GitHub CLI (gh)", pm.cmd, { tolerate: true });
+  } else {
+    console.log("\n▶ ⚠ Chưa có gh CLI, không tự cài được. Cài thủ công rồi chạy lại:");
+    console.log("    macOS  : brew install gh");
+    console.log("    Windows: winget install --id GitHub.cli");
+    console.log("    Linux  : https://github.com/cli/cli/blob/trunk/docs/install_linux.md");
+    skip.push("gh CLI (cần cài thủ công)");
+  }
+}
+// Đăng nhập là việc tương tác của từng người — chỉ nhắc, không tự chạy.
+if (!DRY && hasCmd("gh")) {
+  try { execSync("gh auth status", { stdio: "ignore", shell: true }); }
+  catch { console.log("\n▶ ⚠ gh chưa đăng nhập → tự chạy: gh auth login"); }
+}
+
 // ── 1. Đồng bộ skill: dọn sạch (có backup) rồi cài lại 2 bộ chuẩn ─────────
 if (PRUNE) {
   backupDir(join(HOME, ".claude", "skills"));   // nơi Claude Code đọc skill
