@@ -1,170 +1,181 @@
 ---
 name: pr-convention
-description: Chuẩn tạo nhánh và Pull Request cho mọi dự án — format nhánh, PR title, nội dung mô tả, luồng 2 PR. Tự dò tiền tố ticket / nhánh đích / tên tổ chức từ chính repo, thiếu thì hỏi. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
+description: Branch naming and pull request standard for every project — branch format, PR title, required description sections, two-PR flow, reviewer/assignee/label. Detects ticket prefix, target branch and organization from the repo itself; asks when it cannot. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "create a PR", "raise a PR", "open a pull request", "tạo PR", "mở pull request", "đặt tên nhánh".
 ---
 
-# Chuẩn nhánh & Pull Request
+# Branch & Pull Request Standard
 
-Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo không có
-`CONTRIBUTING.md`. Nếu repo **có** `CONTRIBUTING.md` hoặc PR template thì **file
-đó thắng** — đọc và theo nó.
+The standard lives **in this skill**, so it works on any project, including
+repositories with no `CONTRIBUTING.md`. If the repository **does** have a
+`CONTRIBUTING.md` or PR template, **that file wins** — read it and follow it.
 
 ---
 
-## 1. Chuẩn mặc định
+## 1. Default standard
 
-### Nhánh
+### Branches
 
-Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (ví dụ `SPR-42`).
+Short-lived branches cut from the integration branch. `<TICKET>` is the ticket
+id (for example `SPR-42`).
 
-| Mẫu | Dùng cho |
+| Pattern | Use case |
 |---|---|
-| `feature/<TICKET>` | Tính năng mới |
-| `bugfix/<TICKET>` | Sửa lỗi |
-| `docs/<TICKET>` | Chỉ thay đổi tài liệu |
-| `chore/<TICKET>` | Bảo trì |
-| `<loại>/<TICKET>_<M>` | Bản cherry-pick sang nhánh test. `M` = lần giao, bắt đầu từ `1`, tăng mỗi lần giao lại sau khi sửa |
+| `feature/<TICKET>` | New feature |
+| `bugfix/<TICKET>` | Bug fix |
+| `docs/<TICKET>` | Documentation-only change |
+| `chore/<TICKET>` | Maintenance task |
+| `<type>/<TICKET>_<M>` | Cherry-pick to the test branch. `M` is the delivery number, starting at `1`, incremented on each re-delivery after a fix |
 
 ### PR title
 
 ```text
-[COMPANY] [TARGET] <TICKET> <Mô tả mệnh lệnh>
+[COMPANY] [TARGET] <TICKET> <Imperative description>
 ```
 
-- `COMPANY` — tổ chức sở hữu ticket.
-- `TARGET` — viết tắt nhánh đích (`STG`, `DEV`, `MAIN`).
-- Mô tả: thì hiện tại, bắt đầu bằng động từ, không dấu chấm cuối.
+- `COMPANY` — the organization that owns the ticket.
+- `TARGET` — abbreviated target branch (`STG`, `DEV`, `MAIN`).
+- Description: present tense, starts with a verb, no trailing period.
 
-Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
+Example: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
-### Nội dung PR — các mục bắt buộc
+### Required PR body sections
 
-1. Mô tả ngắn thay đổi làm gì.
-2. Các điểm triển khai đáng lưu ý.
-3. Kết quả test kèm bằng chứng (output, log, ảnh) nếu có.
-4. Cross-reference tới PR song song (nếu luồng 2 PR).
-5. Link ticket.
+1. Short description of what the change does.
+2. Notable implementation details.
+3. Test results with evidence (output, logs, screenshots) where applicable.
+4. Cross-reference to the parallel PR (when using the two-PR flow).
+5. Link to the ticket.
 
-### Reviewer, assignee, label — bắt buộc
+### Reviewer, assignee, label — all required
 
-Mọi PR phải có đủ **3** thứ trước khi tạo:
+Every PR must have all **three** before it is created:
 
-| Mục | Quy tắc |
+| Item | Rule |
 |---|---|
-| **Assignee** | Người tạo PR tự nhận (`@me`). Nếu người làm khác người tạo thì gán người làm. |
-| **Reviewer** | Tối thiểu 1. Là **người thật** → phải được user xác nhận, tuyệt đối không đoán tên. |
-| **Label** | Tự chọn từ label sẵn có của repo. **1–3 cái sát nhất, tối đa 5.** Không gán tràn lan. |
+| **Assignee** | The PR author self-assigns (`@me`). If the implementer differs from the author, assign the implementer. |
+| **Reviewer** | At least one. This is a **real person** — the user must confirm; never guess a name. |
+| **Label** | Chosen from the repository's existing labels. **1–3 most relevant, 5 maximum.** Do not spray labels. |
 
-#### Chọn label
+#### Choosing labels
 
-Luôn chạy `gh label list` trước, **chỉ chọn trong danh sách trả về** — khớp theo
-ý nghĩa, không cần trùng tên tuyệt đối (`enhancement` khớp cho `feature/`).
+Always run `gh label list` first and **choose only from what it returns**. Match
+by meaning, not exact name (`enhancement` is a fine match for `feature/`).
 
-Thứ tự ưu tiên, dừng khi đủ 1–3 cái:
+Priority order — stop once you have 1–3:
 
-1. **Loại thay đổi** — suy từ nhánh: `feature/`→`feature`/`enhancement`,
+1. **Change type**, derived from the branch: `feature/`→`feature`/`enhancement`,
    `bugfix/`→`bug`, `docs/`→`documentation`, `chore/`→`chore`/`maintenance`.
-2. **Phạm vi** — chỉ khi diff rõ ràng thuộc một vùng: `backend`, `frontend`,
-   `infra`, `ci`, `database`, `security`…
+2. **Scope**, only when the diff clearly belongs to one area: `backend`,
+   `frontend`, `infra`, `ci`, `database`, `security`.
 
-**Tuyệt đối không tự gán** các label là phán đoán của con người:
-ưu tiên (`P0`, `high-priority`), mức độ (`critical`, `blocker`), trạng thái
-(`needs-discussion`, `wontfix`, `breaking-change`). Thấy cần → **hỏi user**.
+**Never self-assign labels that encode human judgement**: priority (`P0`,
+`high-priority`), severity (`critical`, `blocker`), status
+(`needs-discussion`, `wontfix`, `breaking-change`). If one seems needed, **ask
+the user**.
 
-**Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
-phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
+**Never create new labels** — that changes repository configuration. If no
+suitable label exists, ask the user to pick from the existing list, or ask
+permission to create one.
 
-### Luồng 2 PR
+### Two-PR flow
 
-Khi repo có **cả nhánh tích hợp và nhánh test**, một thay đổi đi bằng 2 PR:
+When the repository has **both an integration branch and a test branch**, one
+change ships as two PRs:
 
-1. `feature/<TICKET>` → nhánh tích hợp.
-2. `feature/<TICKET>_<M>` → nhánh test (cherry-pick từ PR 1).
+1. `feature/<TICKET>` → integration branch.
+2. `feature/<TICKET>_<M>` → test branch (cherry-picked from PR 1).
 
-Test phát hiện lỗi: sửa trên `feature/<TICKET>`, tạo `feature/<TICKET>_<M+1>`,
-cherry-pick lại. Phát hành = PR từ nhánh tích hợp lên nhánh production.
+If testing finds a bug: fix on `feature/<TICKET>`, create
+`feature/<TICKET>_<M+1>`, cherry-pick again. A release is a PR from the
+integration branch to the production branch.
 
-Repo chỉ có một nhánh chính → **chỉ 1 PR**, bỏ qua toàn bộ phần cherry-pick.
+If the repository has only one main branch → **a single PR**; skip the
+cherry-pick entirely.
 
 ### Review & merge
 
-- Tối thiểu 1 approval trước khi merge.
-- Squash merge là mặc định cho nhánh tích hợp và nhánh test.
-- **Khi squash: không lấy PR title làm commit message.** PR title có tiền tố
-  `[COMPANY] [TARGET]` nên không đúng Conventional Commits. Soạn commit message
-  riêng theo skill `commit-convention`.
+- At least one approval before merge.
+- Squash merge is the default for integration and test branches.
+- **On squash, do not reuse the PR title as the commit message.** The PR title
+  carries the `[COMPANY] [TARGET]` prefix and is therefore not a valid
+  Conventional Commit. Write a separate commit message using the
+  `commit-convention` skill.
 
 ---
 
-## 2. Tự dò biến của dự án
+## 2. Detect project-specific values
 
-Không hỏi những gì suy ra được. Dò theo thứ tự:
+Never ask for anything that can be derived. Detection order:
 
-| Biến | Cách dò |
+| Value | How to detect |
 |---|---|
-| Tiền tố ticket | `git branch -r` và `git log --oneline -50`, tìm mẫu `[A-Z]{2,}-\d+` |
-| Nhánh đích | `git branch -r` — xem có `staging`, `develop`, `main`/`master` không |
-| `COMPANY` | Org trong remote: `git remote get-url origin` → `github.com/<org>/…` |
-| `TARGET` | Suy từ nhánh đích: `staging`→`STG`, `develop`→`DEV`, `main`→`MAIN` |
-| Số PR | Có đủ nhánh tích hợp + test → 2 PR; chỉ `main` → 1 PR |
-| Label có sẵn | `gh label list` — chỉ chọn trong danh sách này |
-| Reviewer gợi ý | `CODEOWNERS` (gốc, `.github/`, `docs/`); nếu không có thì `gh pr list --state merged --limit 20 --json reviews` xem ai hay review |
-| Assignee | `gh api user --jq .login` → mặc định `@me` |
+| Ticket prefix | `git branch -r` and `git log --oneline -50`, look for `[A-Z]{2,}-\d+` |
+| Target branch | `git branch -r` — check for `staging`, `develop`, `main`/`master` |
+| `COMPANY` | Organization in the remote: `git remote get-url origin` → `github.com/<org>/…` |
+| `TARGET` | Derived from the target branch: `staging`→`STG`, `develop`→`DEV`, `main`→`MAIN` |
+| Number of PRs | Integration + test branches present → 2 PRs; only `main` → 1 PR |
+| Available labels | `gh label list` — choose only from this list |
+| Suggested reviewer | `CODEOWNERS` (root, `.github/`, `docs/`); otherwise `gh pr list --state merged --limit 20 --json reviews` to see who usually reviews |
+| Assignee | `gh api user --jq .login` → defaults to `@me` |
 
 ---
 
-## 3. Hỏi khi không suy ra được
+## 3. Ask when detection is not conclusive
 
-**Rà bắt buộc trước MỖI lần tạo PR.** Đi hết checklist dưới; bất kỳ mục nào dò
-không ra, mâu thuẫn, hoặc **chỉ đoán được chứ không chắc** → **hỏi user**. Không
-suy đoán, không mượn giá trị của dự án khác, không im lặng bỏ qua.
+**Run this check before every PR.** Walk the whole checklist; if any item cannot
+be detected, conflicts, or **can only be guessed rather than confirmed** → **ask
+the user**. Do not guess, do not borrow values from another project, do not
+silently skip.
 
-Checklist mỗi lần tạo PR:
+Checklist for every PR:
 
-- [ ] Tiền tố + số ticket
-- [ ] Tên nhánh đúng mẫu
-- [ ] Nhánh đích
-- [ ] `COMPANY` và `TARGET` trong title
-- [ ] Số PR cần tạo (1 hay 2)
+- [ ] Ticket prefix and number
+- [ ] Branch name matches the pattern
+- [ ] Target branch
+- [ ] `COMPANY` and `TARGET` in the title
+- [ ] Number of PRs to create (1 or 2)
 - [ ] Assignee
 - [ ] Reviewer
-- [ ] Label (1–3, trong danh sách sẵn có)
-- [ ] Kết quả test có thật hay chưa chạy
+- [ ] Labels (1–3, from the existing list)
+- [ ] Test results — actually run, or explicitly not run
 
-Cách hỏi:
+How to ask:
 
-- Gộp **tất cả** câu hỏi vào **một lượt**, kèm phương án đề xuất để user chỉ cần
-  xác nhận. Không hỏi lắt nhắt.
-- Nêu rõ đã dò được gì và vì sao chưa chắc.
+- Batch **all** questions into **one** round, each with a proposed answer so the
+  user only has to confirm. Never drip-feed questions one at a time.
+- State what was detected and why it is not certain.
 
-Luôn phải hỏi, không bao giờ tự bịa:
+Never fabricate, always ask:
 
-- **Số ticket** — không suy ra từ tên nhánh nếu nhánh chưa đặt đúng chuẩn.
-- **Kết quả test** — chỉ ghi những gì thực sự đã chạy; chưa chạy thì ghi rõ chưa chạy.
-- **Reviewer** — gán review là gửi thông báo cho người thật. Được phép *đề xuất*
-  từ CODEOWNERS hoặc lịch sử review, nhưng phải user xác nhận mới gán.
-
----
-
-## 4. Kiểm tra trước khi tạo
-
-- Tên nhánh hiện tại khớp mẫu chưa → chưa khớp thì báo và đề xuất tên đúng.
-- Nhánh đích đúng chưa.
-- Nhánh đã push lên remote chưa.
-- Thay đổi có gọn trong một mối quan tâm không → lẫn nhiều việc thì nói rõ.
-- **Đã có đủ assignee, ít nhất 1 reviewer, ít nhất 1 label chưa.**
+- **Ticket number** — do not infer it from a branch name that does not follow
+  the pattern.
+- **Test results** — report only what actually ran; if nothing ran, say so.
+- **Reviewer** — requesting review notifies a real person. Proposing a name from
+  `CODEOWNERS` or review history is fine, but the user must confirm before it is
+  assigned.
 
 ---
 
-## 5. Duyệt trước khi tạo
+## 4. Pre-flight checks
 
-Tạo PR là hành động ra ngoài. **In title + body + reviewer/assignee/label cho user
-xem và chờ đồng ý** rồi mới chạy:
+- Does the current branch name match the pattern → if not, report it and propose
+  a correct name.
+- Is the target branch correct.
+- Has the branch been pushed to the remote.
+- Is the change scoped to one concern → if it mixes several, say so.
+- Are assignee, at least one reviewer, and at least one label all present.
+
+---
+
+## 5. Confirm before creating
+
+Creating a PR is an outward action. **Print the title, body, and
+reviewer/assignee/label for the user and wait for approval** before running:
 
 ```bash
 gh pr create \
-  --base <nhánh-đích> \
-  --title "[COMPANY] [TARGET] <TICKET> <mô tả>" \
+  --base <target-branch> \
+  --title "[COMPANY] [TARGET] <TICKET> <description>" \
   --body-file <file> \
   --assignee @me \
   --reviewer <user1>[,<user2>] \
@@ -173,9 +184,9 @@ gh pr create \
 
 ---
 
-## Cấm
+## Prohibited
 
-- Bịa số ticket, mã Jira, kết quả test, bằng chứng.
-- Emoji, ngôn ngữ marketing, văn phong AI trong title/body.
-- Tự chạy `gh pr create` khi user chưa duyệt.
-- Tự đổi tên nhánh hoặc force-push mà không hỏi.
+- Fabricating ticket numbers, Jira ids, test results, or evidence.
+- Emoji, marketing language, or AI-style prose in the title or body.
+- Running `gh pr create` before the user approves.
+- Renaming a branch or force-pushing without asking.

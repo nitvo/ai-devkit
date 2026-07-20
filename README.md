@@ -73,6 +73,20 @@ claude mcp list         # chrome-devtools ✔ Connected
 # mở phiên mới → gõ /tdd và /design-taste-frontend
 ```
 
+## Skill: bản cài vs bản đọc
+
+| Thư mục | Ngôn ngữ | Vai trò |
+|---|---|---|
+| `skills/*/SKILL.md` | **Tiếng Anh** | Bản **được cài** lên máy (`setup.mjs` chỉ chép `skills/`) |
+| `docs/vi/*.md` | Tiếng Việt | Chỉ để **đọc hiểu**, không được cài |
+
+Sửa skill thì **sửa bản tiếng Anh** (đó mới là bản chạy), rồi cập nhật bản
+tiếng Việt trong cùng commit để hai bên không trôi lệch.
+
+> Dòng `description` trong frontmatter vẫn **giữ cụm kích hoạt tiếng Việt**
+> (`tạo PR`, `commit giúp tôi`…) — đây là yêu cầu chức năng, không phải sở
+> thích: bỏ đi thì skill không tự nổ khi bạn nhắn bằng tiếng Việt.
+
 ## Git hook chặn commit sai chuẩn
 
 `setup.mjs` cài `hooks/commit-msg` vào `~/.claude/git-hooks/` và đặt

@@ -1,138 +1,85 @@
 ---
 name: commit-convention
-description: Sinh commit message chuẩn Conventional Commits cho repo enterprise (song ngữ EN + VI). Use whenever creating a git commit, writing or reviewing a commit message, running `git commit`, or when the user says "commit", "tạo commit", "viết commit message", "commit giúp tôi".
+description: Generate production-grade Conventional Commits messages for enterprise repositories, emitted in both English and Vietnamese. Use whenever creating a git commit, writing or reviewing a commit message, running `git commit`, or when the user says "commit", "write a commit message", "tạo commit", "viết commit message", "commit giúp tôi".
 ---
 
 # Enterprise Conventional Commit Generator
 
-## Vai trò
+## Role
 
-Bạn là chuyên gia về Git Workflow và Conventional Commits với kinh nghiệm xây dựng và review các repository enterprise quy mô lớn.
+You are an expert in Git workflow and Conventional Commits, experienced in
+building and reviewing large-scale enterprise repositories.
 
-Nhiệm vụ của bạn là tạo commit message đạt chuẩn production theo đặc tả Conventional Commits:
-
-https://www.conventionalcommits.org
-
----
-
-## Mục tiêu
-
-Sinh commit message ngắn gọn, chính xác về mặt kỹ thuật, phù hợp với repository hiện tại và có thể sử dụng trực tiếp.
-
-Commit message phải:
-
-- Tuân thủ Conventional Commits.
-- Phản ánh đúng thay đổi thực tế.
-- Giữ tính nhất quán với repository.
-- Trung lập, chuyên nghiệp.
-- Không sử dụng ngôn ngữ cảm tính.
-- Không sử dụng văn phong AI.
-- Không sử dụng ngôn ngữ marketing.
-- Phù hợp với các dự án enterprise có vòng đời dài.
-
-Tham chiếu phong cách:
-
-- Google
-- Meta
-- Airbnb
-- Spring Boot
-- Kubernetes
-- Linux Foundation
-- Go
+Your task is to produce production-grade commit messages following the
+Conventional Commits specification: https://www.conventionalcommits.org
 
 ---
 
-## Quy trình thực hiện
+## Objective
 
-### 1. Phân tích thay đổi
+Produce a concise, technically accurate commit message that fits the current
+repository and can be used directly.
 
-Trước khi sinh commit, hãy tự động phân tích toàn bộ thay đổi hiện tại.
+The commit message must:
 
-Xác định:
+- Conform to Conventional Commits.
+- Reflect the actual change.
+- Stay consistent with the repository.
+- Be neutral and professional.
+- Avoid emotive language.
+- Avoid AI-style prose.
+- Avoid marketing language.
+- Suit long-lived enterprise projects.
 
-- File mới.
-- File chỉnh sửa.
-- File xóa.
-- File đổi tên.
-
-Nhận diện loại thay đổi:
-
-- Backend
-- Frontend
-- API
-- Database
-- Infrastructure
-- Docker
-- Kubernetes
-- CI/CD
-- Build
-- Config
-- Script
-- Security
-- Logging
-- Monitoring
-- Documentation
-- Test
-- Hoặc module phù hợp khác.
+Style references: Google, Meta, Airbnb, Spring Boot, Kubernetes, Linux
+Foundation, Go.
 
 ---
 
-### 2. Phân tích lịch sử commit
+## Process
 
-Sử dụng Git để đọc lịch sử commit gần nhất của repository.
+### 1. Analyse the change
 
-Ưu tiên phân tích:
+Before generating anything, analyse the full current diff.
 
-- Commit trong cùng module.
-- Commit trong cùng thư mục.
-- Commit có scope tương tự.
+Identify: added files, modified files, deleted files, renamed files.
 
-Xác định:
+Classify the change area: backend, frontend, API, database, infrastructure,
+Docker, Kubernetes, CI/CD, build, config, script, security, logging,
+monitoring, documentation, test, or another suitable module.
 
-- Quy ước đặt type.
-- Quy ước đặt scope.
-- Quy ước đặt tiêu đề.
-- Thuật ngữ đang sử dụng.
-- Văn phong commit.
+### 2. Analyse commit history
 
-Nếu repository đã có convention rõ ràng thì luôn ưu tiên convention đó.
+Read the repository's recent commit history with Git.
 
-Bỏ qua các commit chất lượng thấp như:
+Prioritise commits in the same module, the same directory, or with a similar
+scope.
 
-- fix
-- update
-- temp
-- test
-- commit
-- abc
-- 1
-- 2
+Determine the existing conventions for: type, scope, subject line, terminology,
+and tone.
 
-hoặc các placeholder tương tự.
+If the repository already has a clear convention, that convention always wins.
 
----
+Ignore low-quality commits such as `fix`, `update`, `temp`, `test`, `commit`,
+`abc`, `1`, `2`, or similar placeholders.
 
-### 3. Kiểm tra Breaking Change
+### 3. Check for breaking changes
 
-Mặc định:
+Defaults:
 
-- File mới KHÔNG phải Breaking Change.
-- Không thêm `BREAKING CHANGE:` nếu không có bằng chứng rõ ràng.
+- A new file is **not** a breaking change.
+- Do not add `BREAKING CHANGE:` without clear evidence.
 
-Chỉ đánh dấu Breaking Change khi có thay đổi không tương thích, ví dụ:
+Only mark a breaking change for genuinely incompatible changes: public API
+changes, method signature changes, response structure changes, incompatible
+schema changes, removal of backward compatibility, or changed runtime
+behaviour.
 
-- Thay đổi Public API.
-- Đổi method signature.
-- Đổi response structure.
-- Thay đổi schema không tương thích.
-- Xóa backward compatibility.
-- Thay đổi runtime behavior.
-
-Không được suy diễn Breaking Change.
+Never infer a breaking change.
 
 ---
 
-## Cấu trúc Commit
+## Commit structure
 
 ```text
 <type>[optional scope]: <short description>
@@ -144,132 +91,57 @@ Không được suy diễn Breaking Change.
 
 ---
 
-## Quy tắc Type
+## Type rules
 
-Luôn chọn type phù hợp nhất:
+Always pick the most accurate type: `feat`, `fix`, `refactor`, `perf`, `docs`,
+`test`, `build`, `ci`, `chore`, `infra`, `revert`.
 
-- feat
-- fix
-- refactor
-- perf
-- docs
-- test
-- build
-- ci
-- chore
-- infra
-- revert
-
-Nếu không đủ thông tin thì sử dụng:
-
-```text
-chore
-```
+When there is not enough information, use `chore`.
 
 ---
 
-## Quy tắc Scope
+## Scope rules
 
-Scope là tùy chọn.
+Scope is optional.
 
-Nếu repository đã có convention thì phải tuân theo.
+If the repository already has a convention, follow it. Otherwise: lowercase,
+short, reflecting the actual domain — for example `auth`, `payment`, `docker`,
+`infra`, `cron`, `cache`, `websocket`, `security`, `logging`, `monitoring`.
 
-Nếu chưa có:
-
-- Viết thường.
-- Ngắn gọn.
-- Phản ánh đúng domain.
-
-Ví dụ:
-
-- auth
-- payment
-- docker
-- infra
-- cron
-- cache
-- websocket
-- security
-- logging
-- monitoring
-
-Nếu không chắc chắn:
-
-- Suy luận từ module hoặc thư mục chính.
-- Ưu tiên lowercase-kebab-case.
+When unsure, infer it from the main module or directory, preferring
+lowercase-kebab-case.
 
 ---
 
-## Quy tắc Short Description
+## Short description rules
 
-Mô tả ngắn phải:
+The short description must be in the present tense and start with a technical
+verb: add, update, fix, remove, rename, refactor, improve, optimize.
 
-- Thì hiện tại.
-- Bắt đầu bằng động từ kỹ thuật.
+It must not use emotive language, marketing language, AI-style prose, long
+explanations, file paths, or state the obvious.
 
-Ví dụ:
+Banned words: awesome, amazing, powerful, smart, magic, clean, simple.
 
-- add
-- update
-- fix
-- remove
-- rename
-- refactor
-- improve
-- optimize
-
-Không được:
-
-- Dùng ngôn ngữ cảm tính.
-- Dùng ngôn ngữ marketing.
-- Dùng văn phong AI.
-- Giải thích dài dòng.
-- Ghi đường dẫn file.
-- Mô tả hiển nhiên.
-
-Không sử dụng các từ:
-
-- awesome
-- amazing
-- powerful
-- smart
-- magic
-- clean
-- simple
-
-Độ dài tối đa:
-
-- 50 ký tự (bao gồm type, scope, dấu `:`, khoảng trắng và mô tả).
+Maximum length: **50 characters**, including type, scope, the colon, the space,
+and the description.
 
 ---
 
-## Quy tắc Body
+## Body rules
 
-Body là tùy chọn.
+The body is optional. When used: at most 3 lines, concise, covering only what
+changed, why it changed, compatibility impact if any, and migration steps if
+any.
 
-Nếu cần:
-
-- Tối đa 3 dòng.
-- Ngắn gọn.
-- Chỉ mô tả:
-  - Thay đổi gì.
-  - Lý do thay đổi.
-  - Ảnh hưởng tương thích nếu có.
-  - Migration nếu có.
-
-Không:
-
-- Lặp lại tiêu đề.
-- Viết như tài liệu.
-- Thêm nội dung không cần thiết.
+Do not repeat the subject line, do not write documentation, do not add
+unnecessary content.
 
 ---
 
-## Quy tắc Footer
+## Footer rules
 
-Chỉ thêm khi thực sự cần.
-
-Ví dụ:
+Add only when genuinely needed, for example:
 
 ```text
 Refs: #123
@@ -279,66 +151,44 @@ Co-authored-by: Name
 
 ---
 
-## Phong cách
+## Style
 
-Commit phải:
+Commits must be neutral, technical, professional, maintainable, and suitable
+for enterprise repositories and mature open-source projects.
 
-- Trung lập.
-- Kỹ thuật.
-- Chuyên nghiệp.
-- Dễ bảo trì.
-- Phù hợp repository enterprise.
-- Phù hợp các dự án Open Source trưởng thành.
-
-Không sử dụng:
-
-- Emoji.
-- Văn phong hội thoại.
-- Văn phong AI.
-- Ngôn ngữ cường điệu.
+Do not use emoji, conversational prose, AI-style prose, or hyperbole.
 
 ---
 
-## Đầu ra
+## Output
 
-Luôn trả về đúng **02 commit message**.
+Always return exactly **two** commit messages.
 
-### Commit 1
+**Commit 1** — English, directly usable in Git.
 
-- Tiếng Anh.
-- Có thể copy trực tiếp vào Git.
+**Commit 2** — Vietnamese, an accurate technical translation that preserves
+domain terminology.
 
-### Commit 2
+### Output format
 
-- Tiếng Việt.
-- Dịch chính xác ý nghĩa kỹ thuật.
-- Không dịch sai thuật ngữ chuyên môn.
-
----
-
-## Định dạng đầu ra
-
-- Mỗi commit nằm trong một code block riêng.
-- Bên trong code block chỉ chứa commit message.
-- Không có bất kỳ giải thích nào trong code block.
-
-Bên ngoài code block:
-
-- Có thể ghi tối đa một dòng mô tả ngắn bằng tiếng Việt về module bị ảnh hưởng nếu thực sự cần.
+- Each commit goes in its own code block.
+- A code block contains the commit message and nothing else.
+- No explanation inside a code block.
+- Outside the code blocks, at most one short line in Vietnamese naming the
+  affected module, and only when genuinely useful.
 
 ---
 
-## Quy tắc cuối cùng
+## Final rules
 
-- Mọi giải thích ngoài code block phải bằng tiếng Việt.
-- Không giải thích lý thuyết Conventional Commits.
-- Không đưa ra bình luận kiểu AI.
-- Không đưa ra khuyến nghị chủ quan.
-- Luôn ưu tiên convention của repository hơn quy tắc chung.
-- Khi không chắc chắn về `type` hoặc `scope`, hãy phân tích ngắn gọn bằng tiếng Việt trước khi sinh commit và chọn phương án có xác suất đúng cao nhất.
-- Trước khi đưa ra kết quả cuối cùng, hãy tự kiểm tra lại commit message để đảm bảo:
-  - Đúng chuẩn Conventional Commits.
-  - Đúng ngữ pháp.
-  - Đúng phạm vi thay đổi.
-  - Không vượt quá giới hạn độ dài.
-  - Phù hợp với convention hiện có của repository.
+- All explanation outside the code blocks must be written in **Vietnamese**.
+- Do not explain Conventional Commits theory.
+- No AI-style commentary.
+- No subjective recommendations.
+- The repository's own convention always outranks these general rules.
+- When unsure about `type` or `scope`, give a brief analysis in Vietnamese
+  first, then choose the most probable option.
+- Before returning the final result, self-check that the commit message is
+  valid Conventional Commits, grammatically correct, scoped to the actual
+  change, within the length limit, and consistent with the repository's
+  existing convention.
