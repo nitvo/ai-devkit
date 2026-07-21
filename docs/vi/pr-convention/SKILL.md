@@ -45,13 +45,64 @@ Ví dụ: `build/SPR-8`, rồi `build/SPR-8_1` cho bản cherry-pick.
 
 Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
-### Nội dung PR — các mục bắt buộc
+### Nội dung PR
 
-1. Mô tả ngắn thay đổi làm gì.
-2. Các điểm triển khai đáng lưu ý.
-3. Kết quả test kèm bằng chứng (output, log, ảnh) nếu có.
-4. Cross-reference tới PR song song (nếu luồng 2 PR).
-5. Link ticket.
+Repo có `.github/PULL_REQUEST_TEMPLATE.md` thì điền theo file đó, bỏ qua mục này.
+Không có thì dùng cấu trúc sau, giữ nguyên mọi heading:
+
+```markdown
+## Description
+
+Nêu thay đổi gì và vì sao. Ngắn gọn.
+
+## Type of change
+
+- [x] `build` - Build system or dependency change
+
+## Changes
+
+- `path/to/file` - đổi gì và vì sao cần
+
+## Testing
+
+- [x] `npm test` - 16/16 pass
+- [x] `npm run build` - emits `dist/`
+
+## Checklist
+
+- [ ] Tests added or updated
+- [ ] Documentation updated for user-facing changes
+- [ ] PR title follows the required format
+
+## Notes
+
+Ghi chú triển khai, tương thích, hoặc việc cần làm tiếp.
+
+## Related PRs
+
+| PR | Branch | Description |
+|----|--------|-------------|
+| #15 | `build/SPR-8` -> `staging` | This PR |
+| #16 | `build/SPR-8_1` -> `develop` | Cherry-pick |
+
+## Linked issue
+
+[SPR-8](https://jira.example.com/browse/SPR-8)
+```
+
+Quy tắc khi điền:
+
+- **Type of change** — tick đúng MỘT cái, trùng với tiền tố nhánh và label
+  `type:`. Breaking change thì thêm `!`.
+- **Changes** — liệt kê theo file, nói đổi gì và vì sao, không chỉ ghi đường dẫn.
+- **Testing** — dán output lệnh thật làm bằng chứng. Output dài bỏ vào khối
+  `<details><summary>`. Chỉ dùng `N/A` khi thay đổi không ảnh hưởng runtime (vd
+  tài liệu). **Tuyệt đối không tick việc chưa chạy.**
+- **Related PRs** — bắt buộc với luồng 2 PR, cross-reference cả hai PR cùng
+  ticket. Chỉ có 1 PR thì bỏ mục này.
+- **Linked issue** — URL ticket. Dò base URL của tracker từ các PR trước; dò
+  không ra thì **hỏi user**. Không bao giờ tự bịa.
+- Không có gì để ghi thì bỏ mục `Notes`. Các heading còn lại giữ nguyên.
 
 ### Reviewer, assignee, label — bắt buộc
 

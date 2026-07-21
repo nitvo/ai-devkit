@@ -42,13 +42,64 @@ Example: `build/SPR-8`, then `build/SPR-8_1` for the cherry-pick.
 
 Example: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
-### Required PR body sections
+### PR body
 
-1. Short description of what the change does.
-2. Notable implementation details.
-3. Test results with evidence (output, logs, screenshots) where applicable.
-4. Cross-reference to the parallel PR (when using the two-PR flow).
-5. Link to the ticket.
+If the repository has a `.github/PULL_REQUEST_TEMPLATE.md`, fill that in and
+skip this section. Otherwise use this structure, keeping every heading:
+
+```markdown
+## Description
+
+State what changed and why. Keep it short.
+
+## Type of change
+
+- [x] `build` - Build system or dependency change
+
+## Changes
+
+- `path/to/file` - what changed and why it was needed
+
+## Testing
+
+- [x] `npm test` - 16/16 pass
+- [x] `npm run build` - emits `dist/`
+
+## Checklist
+
+- [ ] Tests added or updated
+- [ ] Documentation updated for user-facing changes
+- [ ] PR title follows the required format
+
+## Notes
+
+Implementation notes, compatibility notes, or follow-up work.
+
+## Related PRs
+
+| PR | Branch | Description |
+|----|--------|-------------|
+| #15 | `build/SPR-8` -> `staging` | This PR |
+| #16 | `build/SPR-8_1` -> `develop` | Cherry-pick |
+
+## Linked issue
+
+[SPR-8](https://jira.example.com/browse/SPR-8)
+```
+
+Rules for filling it in:
+
+- **Type of change** — tick exactly one, the same type as the branch prefix and
+  the `type:` label. Append `!` for a breaking change.
+- **Changes** — list at file level, say what changed and why, not just the path.
+- **Testing** — paste real command output as evidence. Long output goes in a
+  `<details><summary>` block. Use `N/A` only when the change has no runtime
+  effect, such as documentation. **Never tick a check that was not run.**
+- **Related PRs** — required for the two-PR flow; cross-reference both PRs of
+  the same ticket. Drop the section when there is only one PR.
+- **Linked issue** — the ticket URL. Detect the tracker base URL from earlier
+  PRs; if it cannot be detected, **ask the user**. Never invent one.
+- Drop `Notes` when there is nothing to say. Keep every other heading.
 
 ### Reviewer, assignee, label — all required
 
