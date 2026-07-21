@@ -1,16 +1,15 @@
 # Working agreements
 
-> **Bản dịch để đọc hiểu — KHÔNG được cài.**
+> **Bản dịch để đọc hiểu. KHÔNG được cài.**
 > Bản chạy thật: [`CLAUDE.md`](../../CLAUDE.md).
 > Sửa bản tiếng Anh trước, rồi cập nhật file này trong cùng commit.
 
 Trả lời bằng tiếng Việt, kể cả khi câu hỏi bằng tiếng Anh.
-*(Sở thích cá nhân — đồng nghiệp nên sửa hoặc bỏ dòng này.)*
+*(Sở thích cá nhân. Đồng nghiệp nên sửa hoặc bỏ dòng này.)*
 
-## Diction — áp cho MỌI thứ viết ra
+## Diction, áp cho MỌI thứ viết ra
 
-Code, comment, tài liệu, commit, PR, error message, log, chuỗi UI. Không riêng
-commit và PR.
+Code, comment, tài liệu, commit, PR, error message, log, chuỗi UI. Commit và PR chỉ là một phần.
 
 Cấm 5 nhóm từ:
 
@@ -23,9 +22,14 @@ Cấm 5 nhóm từ:
 | Chuyển ý rỗng | additionally, furthermore, moreover, it is worth noting |
 
 - Tuyên bố về hiệu năng hay độ ổn định phải kèm **con số**, không đo được thì bỏ.
+- Câu ngắn, kết bằng dấu chấm. Không dùng gạch ngang dài hay dấu chấm phẩy để
+  nối mệnh đề.
+- Chỉ dùng dấu ASCII: ba dấu chấm thay ký tự ellipsis, gạch nối thay gạch ngang.
+- Mũi tên chỉ dùng trong bảng, list, output CLI. Trong văn xuôi thì dùng từ.
+- Không viết `not only X but Y`. Nói thẳng điều muốn nói.
 - Không emoji hình vẽ, dấu chấm than, câu hỏi tu từ trong code hay tài liệu.
-  Ký hiệu trạng thái CLI (`✓` `✗` `→`) thì được — mang thông tin chứ không
-  phải trang trí.
+  Ký hiệu trạng thái CLI (`✓` `✗` `→`) thì được. Chúng mang thông tin chứ
+  không phải trang trí.
 - **Comment**: nói VÌ SAO, không kể lại điều code đã nói. Không comment hiển nhiên.
 - **Error và log**: nêu cái gì hỏng và làm gì tiếp. Không "Oops", không mơ hồ.
 - **Tài liệu**: câu khẳng định, không quảng cáo.
@@ -72,6 +76,6 @@ dùng MCP này thay vì đoán:
 
 ## Ponytail (code-trimming plugin)
 
-Mặc định `lite` (đặt ở `~/.config/ponytail/config.json`) — chỉ nhắc, không tự
+Mặc định `lite` (đặt ở `~/.config/ponytail/config.json`). Chỉ nhắc, không tự
 cắt. Chuyển sang `/ponytail ultra` khi dọn codebase cũ; chạy `/ponytail-review`
 trước khi commit.

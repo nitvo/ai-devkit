@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// Bootstrap chung cho team — đồng bộ MỌI máy về CÙNG một bộ công cụ Claude Code.
+// Bootstrap chung cho team. Đồng bộ MỌI máy về CÙNG một bộ công cụ Claude Code.
 // Chạy được trên Windows / Linux / macOS.
 //
 //   node setup.mjs               # đồng bộ (dọn sạch skill cũ rồi cài lại 2 bộ chuẩn)
-//   node setup.mjs --keep-extras # KHÔNG dọn — chỉ thêm, giữ skill sẵn có
+//   node setup.mjs --keep-extras # KHÔNG dọn, chỉ thêm, giữ skill sẵn có
 //   node setup.mjs --dry-run     # chỉ in ra sẽ làm gì, không thay đổi gì
 //
 // Bộ skill chuẩn = 2 nguồn:
-//   • Leonxlnx/taste-skill   (thiết kế giao diện)
-//   • mattpocock/skills      (engineering: tdd, code-review, diagnosing-bugs…)
+//   * Leonxlnx/taste-skill   (thiết kế giao diện)
+//   * mattpocock/skills      (engineering: tdd, code-review, diagnosing-bugs)
 //
-// "Dọn sạch" KHÔNG xoá vĩnh viễn — nó DỜI thư mục skill cũ sang bản .backup-<thời gian>
+// "Dọn sạch" KHÔNG xoá vĩnh viễn. Nó DỜI thư mục skill cũ sang bản .backup-<thời gian>
 // nên bạn hoàn tác được. Idempotent: chạy lại nhiều lần vẫn an toàn.
 
 import { execSync } from "node:child_process";
@@ -54,9 +54,9 @@ if (Number(process.versions.node.split(".")[0]) < 22) {
 try { execSync("claude --version", { stdio: "ignore", shell: true }); }
 catch { console.error("\n✗ Không tìm thấy Claude Code CLI (`claude`). Cài Claude Code rồi chạy lại."); process.exit(1); }
 console.log(`\n✓ Node ${process.versions.node}, Claude Code CLI OK.`);
-console.log(DRY ? "DRY-RUN — không thay đổi gì thật." : (PRUNE ? "Chế độ ĐỒNG BỘ (dọn sạch skill cũ + cài lại)." : "Chế độ chỉ-thêm (giữ skill sẵn có)."));
+console.log(DRY ? "DRY-RUN. Không thay đổi gì thật." : (PRUNE ? "Chế độ ĐỒNG BỘ (dọn sạch skill cũ + cài lại)." : "Chế độ chỉ-thêm (giữ skill sẵn có)."));
 
-// ── 0b. GitHub CLI (gh) — skill pr-convention cần để đọc label / tạo PR ──
+// ── 0b. GitHub CLI (gh). Skill pr-convention cần để đọc label / tạo PR ──
 const hasCmd = (c) => { try { execSync(`${c} --version`, { stdio: "ignore", shell: true }); return true; } catch { return false; } };
 if (hasCmd("gh")) {
   skip.push("gh CLI (đã có)");
@@ -80,7 +80,7 @@ if (hasCmd("gh")) {
     skip.push("gh CLI (cần cài thủ công)");
   }
 }
-// Đăng nhập là việc tương tác của từng người — chỉ nhắc, không tự chạy.
+// Đăng nhập là việc tương tác của từng người. Chỉ nhắc, không tự chạy.
 if (!DRY && hasCmd("gh")) {
   try { execSync("gh auth status", { stdio: "ignore", shell: true }); }
   catch { console.log("\n▶ ⚠ gh chưa đăng nhập → tự chạy: gh auth login"); }
@@ -92,7 +92,7 @@ if (PRUNE) {
   backupDir(join(HOME, ".agents", "skills"));   // nơi `skills` CLI để file gốc
 }
 // --agent claude-code: chỉ cài cho Claude Code (tránh banner "Failed" từ các agent
-// khác như PromptScript, và không rải file sang ~/.junie, ~/.cursor…)
+// khác như PromptScript, và không rải file sang ~/.junie, ~/.cursor)
 run("Cài bộ skill THIẾT KẾ (Leonxlnx/taste-skill)",
     "npx -y skills add Leonxlnx/taste-skill --global --copy --agent claude-code -y");
 run("Cài bộ skill ENGINEERING (mattpocock/skills)",
@@ -173,7 +173,7 @@ else try {
     const shared = join(claudeDir, "CLAUDE.shared.md");
     copyFileSync(srcMd, shared);
     console.log(`\n▶ Đã có CLAUDE.md cá nhân — KHÔNG đè. Bản chung: ${shared} (tự gộp).`);
-    skip.push("CLAUDE.md (đã có — lưu ra CLAUDE.shared.md)");
+    skip.push("CLAUDE.md (đã có, lưu ra CLAUDE.shared.md)");
   } else { copyFileSync(srcMd, target); ok.push("Cài CLAUDE.md dùng chung"); console.log(`\n▶ Đã cài ${target}`); }
 } catch (e) { fail.push("CLAUDE.md"); console.log(`  ✗ ${e.message}`); }
 
@@ -183,6 +183,6 @@ console.log(`✓ Xong: ${ok.length}   ⏭  Bỏ qua: ${skip.length}   ✗ Lỗi:
 if (ok.length)   console.log("\nĐã làm:\n  - " + ok.join("\n  - "));
 if (skip.length) console.log("\nBỏ qua:\n  - " + skip.join("\n  - "));
 if (fail.length) console.log("\n⚠ Lỗi (xem log trên):\n  - " + fail.join("\n  - "));
-if (PRUNE && !DRY) console.log("\nLưu ý: skill cũ đã được DỜI sang thư mục *.backup-… (không mất). Xoá hẳn khi đã yên tâm.");
+if (PRUNE && !DRY) console.log("\nLưu ý: skill cũ đã được DỜI sang thư mục *.backup-* (không mất). Xoá hẳn khi đã yên tâm.");
 console.log("\nMở phiên Claude Code MỚI để có hiệu lực. Kiểm tra: `claude plugin list`, `claude mcp list`, gõ /tdd và /design-taste-frontend");
 process.exit(fail.length ? 1 : 0);

@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def strip_banner(text):
-    """Bỏ khối blockquote đầu file — banner riêng của bản dịch."""
+    """Bỏ khối blockquote đầu file, banner riêng của bản dịch."""
     return "\n".join(l for l in text.splitlines() if not l.startswith(">"))
 
 

@@ -102,18 +102,18 @@ When there is not enough information, use `chore`.
 
 ## Scope rules
 
-**Scope is required.** Conventional Commits treats it as optional; this
+**Scope is required.** Conventional Commits treats it as optional. This
 standard does not. Every commit must carry a scope: `type(scope): description`.
 
 If the repository already has a convention, follow it. Otherwise: lowercase,
-short, reflecting the actual domain — for example `auth`, `payment`, `docker`,
+short, reflecting the actual domain. For example `auth`, `payment`, `docker`,
 `infra`, `cron`, `cache`, `websocket`, `security`, `logging`, `monitoring`.
 
 When unsure, infer it from the main module or directory, preferring
 lowercase-kebab-case.
 
 For a change that genuinely spans the whole repository, still pick a real
-broad scope such as `repo`, `setup`, or `build` — never drop the scope.
+broad scope such as `repo`, `setup`, or `build`. Never drop the scope.
 
 ---
 
@@ -122,7 +122,7 @@ broad scope such as `repo`, `setup`, or `build` — never drop the scope.
 The short description must be in the present tense and start with a technical
 verb: add, update, fix, remove, rename, refactor, improve, optimize.
 
-**Write it entirely in lowercase** — including product names and acronyms
+**Write it entirely in lowercase**: including product names and acronyms
 (`github cli`, `claude code`, `url`, `pr`). Never capitalise the first letter.
 
 It must not use emotive language, marketing language, AI-style prose, long
@@ -149,7 +149,7 @@ unnecessary content.
 ## Footer rules
 
 Add only when genuinely needed. Use the standard git trailer capitalisation
-exactly as shown — `Co-authored-by`, not `Co-Authored-By`:
+exactly as shown, `Co-authored-by` and not `Co-Authored-By`:
 
 ```text
 Refs: #123
@@ -213,7 +213,7 @@ and any sentence that describes the commit instead of the change.
 
 ### Reference conventions
 
-These rules follow published conventions only — [Conventional
+These rules follow published conventions only: [Conventional
 Commits](https://www.conventionalcommits.org), the Angular commit guidelines,
 Google's `eng-practices` guidance on writing CL descriptions, the Go project's
 CONTRIBUTING, and Chris Beams' seven rules. Where a repository's own convention
@@ -228,7 +228,7 @@ Always return exactly **two** commit messages.
 ### Commit 1
 
 English. **This is the one that goes into Git.** Every commit in the repository
-is English; the standard is single-language.
+is English. The standard is single-language.
 
 ### Commit 2
 

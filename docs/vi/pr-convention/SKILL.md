@@ -1,9 +1,9 @@
 ---
 name: pr-convention
-description: Chuẩn tạo nhánh và Pull Request cho mọi dự án — format nhánh, PR title, nội dung mô tả, luồng 2 PR. Tự dò tiền tố ticket / nhánh đích / tên tổ chức từ chính repo, thiếu thì hỏi. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
+description: Chuẩn tạo nhánh và Pull Request cho mọi dự án: format nhánh, PR title, nội dung mô tả, luồng 2 PR. Tự dò tiền tố ticket / nhánh đích / tên tổ chức từ chính repo, thiếu thì hỏi. Use whenever creating or preparing a pull request, naming a branch, running `gh pr create`, reviewing a PR title, or when the user says "tạo PR", "mở pull request", "create a PR", "raise a PR", "đặt tên nhánh".
 ---
 
-> **Bản dịch để đọc hiểu — KHÔNG được cài.**
+> **Bản dịch để đọc hiểu. KHÔNG được cài.**
 > Bản chạy thật: [`skills/pr-convention/SKILL.md`](../../../skills/pr-convention/SKILL.md).
 > Sửa bản tiếng Anh trước, rồi cập nhật file này trong cùng commit.
 
@@ -11,7 +11,7 @@ description: Chuẩn tạo nhánh và Pull Request cho mọi dự án — format
 
 Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo không có
 `CONTRIBUTING.md`. Nếu repo **có** `CONTRIBUTING.md` hoặc PR template thì **file
-đó thắng** — đọc và theo nó.
+đó thắng**. Đọc và theo nó.
 
 ---
 
@@ -21,8 +21,8 @@ Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo khô
 
 Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (ví dụ `SPR-42`).
 
-Tiền tố nhánh chính là **type của Conventional Commits** — cùng chữ với commit.
-Label `type:` thường dùng chữ khác; xem bảng ánh xạ bên dưới.
+Tiền tố nhánh chính là **type của Conventional Commits**, cùng chữ với commit.
+Label `type:` thường dùng chữ khác. Xem bảng ánh xạ bên dưới.
 
 | Mẫu | Dùng cho |
 |---|---|
@@ -37,11 +37,11 @@ Ví dụ: `build/SPR-8`, rồi `build/SPR-8_1` cho bản cherry-pick.
 [COMPANY] [TARGET] <TICKET> <Mô tả mệnh lệnh>
 ```
 
-- `COMPANY` — tổ chức sở hữu ticket.
-- `TARGET` — viết tắt nhánh đích (`STG`, `DEV`, `MAIN`).
+- `COMPANY`: tổ chức sở hữu ticket.
+- `TARGET`: viết tắt nhánh đích (`STG`, `DEV`, `MAIN`).
 - Mô tả: thì hiện tại, bắt đầu bằng động từ, không dấu chấm cuối.
 - **Viết hoa chữ đầu** (sentence case): `Configure npm publishing`. Khác với
-  commit subject — cái đó viết thường hoàn toàn.
+  commit subject, cái đó viết thường hoàn toàn.
 
 Ví dụ: `[Nitvo] [STG] SPR-3 Add bootstrap command`
 
@@ -92,20 +92,20 @@ Ghi chú triển khai, tương thích, hoặc việc cần làm tiếp.
 
 Quy tắc khi điền:
 
-- **Type of change** — tick đúng MỘT cái, trùng với tiền tố nhánh và commit.
+- **Type of change**: tick đúng MỘT cái, trùng với tiền tố nhánh và commit.
   Breaking change thì thêm `!`. Lưu ý label `type:` có thể khác chữ
   (`feat` -> `type: feature`).
-- **Changes** — liệt kê theo file, nói đổi gì và vì sao, không chỉ ghi đường dẫn.
-- **Testing** — dán output lệnh thật làm bằng chứng. Output dài bỏ vào khối
+- **Changes**: liệt kê theo file, nói đổi gì và vì sao, không chỉ ghi đường dẫn.
+- **Testing**: dán output lệnh thật làm bằng chứng. Output dài bỏ vào khối
   `<details><summary>`. Chỉ dùng `N/A` khi thay đổi không ảnh hưởng runtime (vd
   tài liệu). **Tuyệt đối không tick việc chưa chạy.**
-- **Related PRs** — bắt buộc với luồng 2 PR, cross-reference cả hai PR cùng
+- **Related PRs**: bắt buộc với luồng 2 PR, cross-reference cả hai PR cùng
   ticket. Chỉ có 1 PR thì bỏ mục này.
-- **Linked issue** — URL ticket. Dò base URL của tracker từ các PR trước; dò
+- **Linked issue**: URL ticket. Dò base URL của tracker từ các PR trước. Dò
   không ra thì **hỏi user**. Không bao giờ tự bịa.
 - Không có gì để ghi thì bỏ mục `Notes`. Các heading còn lại giữ nguyên.
 
-### Reviewer, assignee, label — bắt buộc
+### Reviewer, assignee, label, bắt buộc
 
 Mọi PR phải có đủ **3** thứ trước khi tạo:
 
@@ -119,18 +119,18 @@ Mọi PR phải có đủ **3** thứ trước khi tạo:
 
 Chạy `gh label list` trước, **chỉ chọn trong danh sách trả về**.
 
-Repo dùng label có namespace thì gán đúng một cái từ mỗi nhóm sau — không hơn không kém:
+Repo dùng label có namespace thì gán đúng một cái từ mỗi nhóm sau, không hơn không kém:
 
 | Nhóm | Suy từ | Ví dụ |
 |---|---|---|
 | `target:` | Nhánh đích | `target: staging`, `target: develop`, `target: main` |
-| `type:` | Loại thay đổi — **xem bảng ánh xạ bên dưới; label thường KHÔNG trùng chữ với commit type** | `type: feature`, `type: bug`, `type: build` |
+| `type:` | Loại thay đổi. **Xem bảng ánh xạ bên dưới. Label thường khác chữ với commit type** | `type: feature`, `type: bug`, `type: build` |
 | `area:` | Vùng code bị đụng | `area: ci`, `area: docs`, `area: skills`, `area: tooling` |
 
 #### Ánh xạ commit type → label `type:`
 
 Từ vựng của label và của Conventional Commits **không giống nhau**. Đừng bao giờ
-tưởng `feat` ứng với `type: feat` — label đó không tồn tại. Ánh xạ như sau, rồi
+tưởng `feat` ứng với `type: feat`. Label đó không tồn tại. Ánh xạ như sau, rồi
 kiểm lại label có thật trong `gh label list`:
 
 | Commit type | Tiền tố nhánh | Label `type:` |
@@ -145,26 +145,26 @@ kiểm lại label có thật trong `gh label list`:
 | `ci` | `ci/` | `type: ci` |
 | `chore` | `chore/` | `type: chore` |
 
-Một số repo có label không có type tương ứng — `type: dependencies`,
+Một số repo có label không có type tương ứng: `type: dependencies`,
 `type: security`, `type: enhancement`, `type: style`. **Ưu tiên label cụ thể hơn
 khi nó hợp**: nâng dependency thì commit là `chore`/`build` nhưng label đúng hơn
 là `type: dependencies`; vá bảo mật commit là `fix` nhưng label đúng hơn là
 `type: security`.
 
 Không label nào khớp thì chọn cái sát nghĩa nhất. Không có gì gần thì **hỏi
-user** — không tự tạo label.
+user**. Không tự tạo label.
 
 #### Nhóm tuyệt đối không đụng
 
-Repo có thể còn nhiều nhóm khác — `priority:`, `severity:`, `status:`, `size:`,
+Repo có thể còn nhiều nhóm khác: `priority:`, `severity:`, `status:`, `size:`,
 `impact:`, `changelog:`, `quality:`. **Tuyệt đối không tự gán** mấy nhóm này, vì
 chúng là phán đoán triage của con người. Thấy cần thì **hỏi user**.
 
 Repo không dùng namespace thì chọn label thường sát nghĩa nhất (`enhancement`
-cho một feature), vẫn **tối đa 1–3**.
+cho một feature), vẫn **tối đa 1-3**.
 
-**Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
-phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
+**Không tự tạo label mới**: tạo label là thay đổi cấu hình repo. Không có label
+phù hợp thì hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
 
 ### Luồng 2 PR
 
@@ -176,7 +176,7 @@ Khi repo có **cả nhánh tích hợp và nhánh test**, một thay đổi đi 
 Test phát hiện lỗi: sửa trên `<type>/<TICKET>`, tạo `<type>/<TICKET>_<M+1>`,
 cherry-pick lại. Phát hành = PR từ nhánh tích hợp lên nhánh production.
 
-Repo chỉ có một nhánh chính → **chỉ 1 PR**, bỏ qua toàn bộ phần cherry-pick.
+Repo chỉ có một nhánh chính thì mở **1 PR**, bỏ qua toàn bộ phần cherry-pick.
 
 ### Review & merge
 
@@ -199,7 +199,7 @@ rơi về PR title khi có nhiều hơn. Nên:
 
 | PR có gì | Subject khi squash | Phải làm |
 |---|---|---|
-| 1 commit | Subject của commit | Không cần làm gì — đã đúng chuẩn |
+| 1 commit | Subject của commit | Không cần làm gì: đã đúng chuẩn |
 | 2+ commit | PR title | **Sửa tay ô message lúc merge** |
 
 Ưu tiên mỗi PR một commit. PR nhiều commit thì người merge phải thay subject
@@ -214,11 +214,11 @@ Không hỏi những gì suy ra được. Dò theo thứ tự:
 | Biến | Cách dò |
 |---|---|
 | Tiền tố ticket | `git branch -r` và `git log --oneline -50`, tìm mẫu `[A-Z]{2,}-\d+` |
-| Nhánh đích | `git branch -r` — xem có `staging`, `develop`, `main`/`master` không |
+| Nhánh đích | `git branch -r`: xem có `staging`, `develop`, `main`/`master` không |
 | `COMPANY` | Org trong remote: `git remote get-url origin` → `github.com/<org>/…` |
 | `TARGET` | Suy từ nhánh đích: `staging`→`STG`, `develop`→`DEV`, `main`→`MAIN` |
 | Số PR | Có đủ nhánh tích hợp + test → 2 PR; chỉ `main` → 1 PR |
-| Label có sẵn | `gh label list` — chỉ chọn trong danh sách này |
+| Label có sẵn | `gh label list`: chỉ chọn trong danh sách này |
 | Reviewer gợi ý | `CODEOWNERS` (gốc, `.github/`, `docs/`); nếu không có thì `gh pr list --state merged --limit 20 --json reviews` xem ai hay review |
 | Assignee | `gh api user --jq .login` → mặc định `@me` |
 
@@ -226,8 +226,8 @@ Không hỏi những gì suy ra được. Dò theo thứ tự:
 
 ## 3. Hỏi khi không suy ra được
 
-**Rà bắt buộc trước MỖI lần tạo PR.** Đi hết checklist dưới; bất kỳ mục nào dò
-không ra, mâu thuẫn, hoặc **chỉ đoán được chứ không chắc** → **hỏi user**. Không
+**Rà bắt buộc trước MỖI lần tạo PR.** Đi hết checklist dưới. Bất kỳ mục nào dò
+không ra, mâu thuẫn, hoặc **chỉ đoán được chứ không chắc** thì **hỏi user**. Không
 suy đoán, không mượn giá trị của dự án khác, không im lặng bỏ qua.
 
 Checklist mỗi lần tạo PR:
@@ -239,7 +239,7 @@ Checklist mỗi lần tạo PR:
 - [ ] Số PR cần tạo (1 hay 2)
 - [ ] Assignee
 - [ ] Reviewer
-- [ ] Label — mỗi nhóm một cái: `target:`, `type:`, `area:`
+- [ ] Label: mỗi nhóm một cái: `target:`, `type:`, `area:`
 - [ ] Kết quả test có thật hay chưa chạy
 
 Cách hỏi:
@@ -250,9 +250,9 @@ Cách hỏi:
 
 Luôn phải hỏi, không bao giờ tự bịa:
 
-- **Số ticket** — không suy ra từ tên nhánh nếu nhánh chưa đặt đúng chuẩn.
-- **Kết quả test** — chỉ ghi những gì thực sự đã chạy; chưa chạy thì ghi rõ chưa chạy.
-- **Reviewer** — gán review là gửi thông báo cho người thật. Được phép *đề xuất*
+- **Số ticket**: không suy ra từ tên nhánh nếu nhánh chưa đặt đúng chuẩn.
+- **Kết quả test**: chỉ ghi những gì thực sự đã chạy. Chưa chạy thì ghi rõ chưa chạy.
+- **Reviewer**: gán review là gửi thông báo cho người thật. Được phép *đề xuất*
   từ CODEOWNERS hoặc lịch sử review, nhưng phải user xác nhận mới gán.
 
 ---
@@ -306,7 +306,7 @@ gh pr create \
 | `Cleanly refactor the messy auth flow` | `Extract token validation from the auth handler` |
 | `Significantly improve build speed` | `Cache node_modules between CI runs` |
 
-Chỉ theo quy ước đã công bố — Conventional Commits, Angular commit guidelines,
+Chỉ theo quy ước đã công bố: Conventional Commits, Angular commit guidelines,
 `eng-practices` của Google, 7 quy tắc của Chris Beams. Convention của repo
 thắng các quy tắc này.
 

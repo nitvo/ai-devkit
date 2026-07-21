@@ -1,12 +1,12 @@
 # Working agreements
 
 Reply in Vietnamese, even when the question is asked in English.
-*(Personal preference — teammates should change or remove this line.)*
+*(Personal preference. Teammates should change or remove this line.)*
 
-## Diction — applies to everything written
+## Diction, applies to everything written
 
 Code, comments, documentation, commits, PRs, error messages, logs, UI strings.
-Not only commits and PRs.
+Commits and PRs are only part of it.
 
 Five banned word classes:
 
@@ -19,8 +19,13 @@ Five banned word classes:
 | Empty transitions | additionally, furthermore, moreover, it is worth noting |
 
 - A performance or reliability claim carries a **number**, or it is dropped.
+- Short sentences ending in a period. No em dash or semicolon joining clauses.
+- ASCII punctuation only: three dots instead of a single ellipsis character,
+  a hyphen instead of an en dash.
+- Arrows belong in tables, lists and CLI output. In prose, use a word.
+- Never write `not only X but Y`. State the point directly.
 - No pictograph emoji, exclamation marks, or rhetorical questions in code or
-  documentation. CLI status glyphs (`✓` `✗` `→`) are fine — they carry
+  documentation. CLI status glyphs (`✓` `✗` `→`) are fine. They carry
   information rather than decoration.
 - **Comments**: say WHY, not what the code already says. No obvious comments.
 - **Errors and logs**: name what failed and what to do next. No "Oops", nothing vague.
@@ -59,7 +64,7 @@ generic UI:
 
 ## Chrome DevTools MCP (`chrome-devtools`)
 
-Installed globally; opens a real Chrome window. When inspecting or debugging a
+Installed globally. It opens a real Chrome window. When inspecting or debugging a
 live page, use this MCP instead of guessing:
 
 - Failing requests, payloads, headers, status codes → network
@@ -69,6 +74,6 @@ live page, use this MCP instead of guessing:
 
 ## Ponytail (code-trimming plugin)
 
-Defaults to `lite` (set in `~/.config/ponytail/config.json`) — it suggests, it
+Defaults to `lite` (set in `~/.config/ponytail/config.json`). It suggests, it
 does not cut on its own. Switch to `/ponytail ultra` when clearing out an old
-codebase; run `/ponytail-review` before committing.
+codebase. Run `/ponytail-review` before committing.

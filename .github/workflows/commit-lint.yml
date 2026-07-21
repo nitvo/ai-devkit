@@ -1,7 +1,7 @@
 name: commit-lint
 
 # Ép chuẩn commit ở phía server. Hook local bỏ qua được bằng --no-verify,
-# và không chạy khi commit qua web UI — job này là chốt chặn cuối.
+# và không chạy khi commit qua web UI, job này là chốt chặn cuối.
 #
 # Dùng lại chính hooks/commit-msg làm nguồn sự thật, nên luật ở local và ở CI
 # không thể lệch nhau.
@@ -25,6 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/check-mirrors.py
+
+  diction:
+    name: diction
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check-diction.py
 
   commits:
     name: validate commit messages

@@ -3,7 +3,7 @@ name: commit-convention
 description: Sinh commit message chuẩn Conventional Commits cho repo enterprise (song ngữ EN + VI). Use whenever creating a git commit, writing or reviewing a commit message, running `git commit`, or when the user says "commit", "tạo commit", "viết commit message", "commit giúp tôi".
 ---
 
-> **Bản dịch để đọc hiểu — KHÔNG được cài.**
+> **Bản dịch để đọc hiểu. KHÔNG được cài.**
 > Bản chạy thật: [`skills/commit-convention/SKILL.md`](../../../skills/commit-convention/SKILL.md).
 > Sửa bản tiếng Anh trước, rồi cập nhật file này trong cùng commit.
 
@@ -149,11 +149,11 @@ Không đủ thông tin thì dùng `chore`.
 
 ## Quy tắc Scope
 
-**Scope là BẮT BUỘC.** Conventional Commits coi scope là tùy chọn, chuẩn này thì
+**Scope là BẮT BUỘC.** Conventional Commits coi scope là tùy chọn. Chuẩn này thì
 không. Mọi commit phải có scope: `type(scope): description`.
 
 Thay đổi trải rộng cả repo thì vẫn chọn một scope rộng nhưng có thật (`repo`,
-`setup`, `build`) — không bao giờ bỏ trống scope.
+`setup`, `build`). Không bao giờ bỏ trống scope.
 
 Nếu repository đã có convention thì phải tuân theo.
 
@@ -179,7 +179,7 @@ Mô tả ngắn phải:
 
 - Thì hiện tại.
 - Bắt đầu bằng động từ kỹ thuật.
-- **Viết thường hoàn toàn** — kể cả tên sản phẩm và từ viết tắt (`github cli`,
+- **Viết thường hoàn toàn**: kể cả tên sản phẩm và từ viết tắt (`github cli`,
   `claude code`, `url`, `pr`). Không viết hoa chữ cái đầu.
 
 Ví dụ:
@@ -242,8 +242,8 @@ Không:
 
 ## Quy tắc Footer
 
-Chỉ thêm khi thực sự cần. Viết đúng capitalization chuẩn của git trailer —
-`Co-authored-by`, KHÔNG phải `Co-Authored-By`:
+Chỉ thêm khi thực sự cần. Viết đúng capitalization chuẩn của git trailer,
+`Co-authored-by` chứ KHÔNG phải `Co-Authored-By`:
 
 ```text
 Refs: #123
@@ -318,7 +318,7 @@ bản thân commit thay vì mô tả thay đổi.
 
 ### Nguồn tham chiếu
 
-Chỉ theo các quy ước đã công bố — [Conventional
+Chỉ theo các quy ước đã công bố: [Conventional
 Commits](https://www.conventionalcommits.org), Angular commit guidelines,
 hướng dẫn viết CL description trong `eng-practices` của Google, CONTRIBUTING
 của dự án Go, và 7 quy tắc của Chris Beams. Repo có convention riêng thì
@@ -333,7 +333,7 @@ Luôn trả về đúng **02 commit message**.
 ### Commit 1
 
 - Tiếng Anh.
-- **Đây là bản đi vào Git.** Mọi commit trong repo đều tiếng Anh — chuẩn là
+- **Đây là bản đi vào Git.** Mọi commit trong repo đều tiếng Anh: chuẩn là
   một ngôn ngữ duy nhất.
 
 ### Commit 2

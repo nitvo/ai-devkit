@@ -1,5 +1,5 @@
 #!/bin/sh
-# ai-devkit — chặn commit message sai chuẩn Conventional Commits.
+# ai-devkit, chặn commit message sai chuẩn Conventional Commits.
 # Cài global qua core.hooksPath (xem setup.mjs). Bỏ qua: merge/revert/fixup/squash.
 
 MAX_LEN=72
@@ -13,10 +13,10 @@ esac
 
 if ! printf '%s' "$header" | grep -Eq "^($TYPES)\([a-z0-9._/-]+\)!?: .+"; then
   echo "" >&2
-  echo "✗ Commit bị chặn — sai chuẩn Conventional Commits." >&2
+  echo "✗ Commit bị chặn: sai chuẩn Conventional Commits." >&2
   echo "" >&2
   echo "  Nhận được : $header" >&2
-  echo "  Cần dạng  : <type>(<scope>): <mô tả>   — scope BẮT BUỘC" >&2
+  echo "  Cần dạng  : <type>(<scope>): <mô tả>   (scope BẮT BUỘC)" >&2
   echo "  Type hợp lệ: $(echo "$TYPES" | tr '|' ' ')" >&2
   echo "" >&2
   echo "  Ví dụ: feat(auth): add refresh token rotation" >&2
@@ -27,7 +27,7 @@ fi
 desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)\([a-z0-9._/-]+\)!?: //")
 if printf '%s' "$desc" | grep -q '[A-Z]'; then
   echo "" >&2
-  echo "✗ Commit bị chặn — tiêu đề phải viết THƯỜNG hoàn toàn." >&2
+  echo "✗ Commit bị chặn: tiêu đề phải viết THƯỜNG hoàn toàn." >&2
   echo "" >&2
   echo "  Nhận được : $header" >&2
   echo "  Sửa thành : $(printf '%s' "$header" | tr '[:upper:]' '[:lower:]')" >&2
@@ -38,7 +38,7 @@ fi
 len=$(printf '%s' "$header" | wc -m | tr -d ' ')
 if [ "$len" -gt "$MAX_LEN" ]; then
   echo "" >&2
-  echo "✗ Commit bị chặn — tiêu đề $len ký tự, tối đa $MAX_LEN." >&2
+  echo "✗ Commit bị chặn: tiêu đề $len ký tự, tối đa $MAX_LEN." >&2
   echo "  $header" >&2
   echo "" >&2
   exit 1
