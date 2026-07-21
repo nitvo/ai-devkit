@@ -104,6 +104,33 @@ Rules for filling it in:
   PRs. If it cannot be detected, **ask the user**. Never invent one.
 - Drop `Notes` when there is nothing to say. Keep every other heading.
 
+#### The second pull request in a two-PR flow
+
+The cherry-pick carries the same change as the source, so repeating its detail
+creates two copies that drift apart. Defer to the source instead.
+
+| Section | Content |
+|---|---|
+| `Description` | One line: what is cherry-picked, from which branch to which |
+| `Type of change` | `See #<source>.` |
+| `Changes` | `See #<source>.` |
+| `Testing` | **Own content, see below** |
+| `Checklist` | `See #<source>.` |
+| `Related PRs` | Full table. Mark the source and this one. Link the cherry-picked commit |
+| `Linked issue` | Full link, same ticket |
+
+`Testing` is the one section that never defers. The cherry-pick carries a risk
+the source cannot cover, which is whether it applied cleanly on a different
+branch. Record two things:
+
+```markdown
+- [x] N/A - identical to #15 (no changes from the staging branch)
+- [x] No conflicts with existing changes on develop
+```
+
+Write `See #<source>.` only where the content would be identical. Never use it
+to avoid work on a section that has something of its own to say.
+
 ### Reviewer, assignee and label
 
 Every PR must have all **three** before it is created:

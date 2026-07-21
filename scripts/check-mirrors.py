@@ -149,7 +149,10 @@ for en_path, vi_path, rel in pairs():
             problems.append(f"only in VI: {', '.join(only_vi)}")
         en_h = doc_headings(strip_banner(en_raw))
         vi_h = doc_headings(vi_raw)
-        if len(en_h) != len(vi_h):
+        if en_h != vi_h:
+            problems.append(
+                f"heading levels differ: EN={' '.join(en_h)} VI={' '.join(vi_h)}")
+        elif len(en_h) != len(vi_h):
             problems.append(f"heading count differs: EN={len(en_h)} VI={len(vi_h)}")
         if problems:
             failed = 1
