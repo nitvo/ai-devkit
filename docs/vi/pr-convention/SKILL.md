@@ -21,8 +21,8 @@ Chuẩn nằm **trong skill này**, dùng cho mọi dự án kể cả repo khô
 
 Nhánh ngắn hạn, cắt từ nhánh tích hợp. `<TICKET>` là mã ticket (ví dụ `SPR-42`).
 
-Tiền tố nhánh chính là **type của Conventional Commits** — cùng chữ với commit
-và với label `type:`.
+Tiền tố nhánh chính là **type của Conventional Commits** — cùng chữ với commit.
+Label `type:` thường dùng chữ khác; xem bảng ánh xạ bên dưới.
 
 | Mẫu | Dùng cho |
 |---|---|
@@ -92,8 +92,9 @@ Ghi chú triển khai, tương thích, hoặc việc cần làm tiếp.
 
 Quy tắc khi điền:
 
-- **Type of change** — tick đúng MỘT cái, trùng với tiền tố nhánh và label
-  `type:`. Breaking change thì thêm `!`.
+- **Type of change** — tick đúng MỘT cái, trùng với tiền tố nhánh và commit.
+  Breaking change thì thêm `!`. Lưu ý label `type:` có thể khác chữ
+  (`feat` -> `type: feature`).
 - **Changes** — liệt kê theo file, nói đổi gì và vì sao, không chỉ ghi đường dẫn.
 - **Testing** — dán output lệnh thật làm bằng chứng. Output dài bỏ vào khối
   `<details><summary>`. Chỉ dùng `N/A` khi thay đổi không ảnh hưởng runtime (vd
@@ -123,8 +124,37 @@ Repo dùng label có namespace thì gán đúng một cái từ mỗi nhóm sau 
 | Nhóm | Suy từ | Ví dụ |
 |---|---|---|
 | `target:` | Nhánh đích | `target: staging`, `target: develop`, `target: main` |
-| `type:` | Loại thay đổi, trùng chữ với tiền tố nhánh và type của commit | `type: build`, `type: feature`, `type: fix` |
+| `type:` | Loại thay đổi — **xem bảng ánh xạ bên dưới; label thường KHÔNG trùng chữ với commit type** | `type: feature`, `type: bug`, `type: build` |
 | `area:` | Vùng code bị đụng | `area: ci`, `area: docs`, `area: skills`, `area: tooling` |
+
+#### Ánh xạ commit type → label `type:`
+
+Từ vựng của label và của Conventional Commits **không giống nhau**. Đừng bao giờ
+tưởng `feat` ứng với `type: feat` — label đó không tồn tại. Ánh xạ như sau, rồi
+kiểm lại label có thật trong `gh label list`:
+
+| Commit type | Tiền tố nhánh | Label `type:` |
+|---|---|---|
+| `feat` | `feat/` | `type: feature` |
+| `fix` | `fix/` | `type: bug` |
+| `perf` | `perf/` | `type: performance` |
+| `docs` | `docs/` | `type: docs` |
+| `refactor` | `refactor/` | `type: refactor` |
+| `test` | `test/` | `type: test` |
+| `build` | `build/` | `type: build` |
+| `ci` | `ci/` | `type: ci` |
+| `chore` | `chore/` | `type: chore` |
+
+Một số repo có label không có type tương ứng — `type: dependencies`,
+`type: security`, `type: enhancement`, `type: style`. **Ưu tiên label cụ thể hơn
+khi nó hợp**: nâng dependency thì commit là `chore`/`build` nhưng label đúng hơn
+là `type: dependencies`; vá bảo mật commit là `fix` nhưng label đúng hơn là
+`type: security`.
+
+Không label nào khớp thì chọn cái sát nghĩa nhất. Không có gì gần thì **hỏi
+user** — không tự tạo label.
+
+#### Nhóm tuyệt đối không đụng
 
 Repo có thể còn nhiều nhóm khác — `priority:`, `severity:`, `status:`, `size:`,
 `impact:`, `changelog:`, `quality:`. **Tuyệt đối không tự gán** mấy nhóm này, vì

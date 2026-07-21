@@ -2,7 +2,7 @@
 # ai-devkit — chặn commit message sai chuẩn Conventional Commits.
 # Cài global qua core.hooksPath (xem setup.mjs). Bỏ qua: merge/revert/fixup/squash.
 
-MAX_LEN=50
+MAX_LEN=72
 TYPES='feat|fix|refactor|perf|docs|test|build|ci|chore|infra|revert'
 
 header=$(head -n1 "$1")

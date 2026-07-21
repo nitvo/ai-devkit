@@ -1,0 +1,59 @@
+name: commit-lint
+
+# Ép chuẩn commit ở phía server. Hook local bỏ qua được bằng --no-verify,
+# và không chạy khi commit qua web UI — job này là chốt chặn cuối.
+#
+# Dùng lại chính hooks/commit-msg làm nguồn sự thật, nên luật ở local và ở CI
+# không thể lệch nhau.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  self-test:
+    name: hook self-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sh hooks/test-commit-msg.sh
+
+  commits:
+    name: validate commit messages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine commit range
+        id: range
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags origin "${{ github.base_ref }}"
+            echo "range=origin/${{ github.base_ref }}..HEAD" >> "$GITHUB_OUTPUT"
+          else
+            echo "range=${{ github.event.before }}..${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate
+        run: |
+          set -e
+          tmp=$(mktemp)
+          failed=0
+          # Bỏ qua khi range rỗng hoặc chứa SHA toàn số 0 (nhánh mới push).
+          case "${{ steps.range.outputs.range }}" in
+            *0000000000000000000000000000000000000000*) echo "Nhánh mới, bỏ qua."; exit 0 ;;
+          esac
+          for sha in $(git rev-list --no-merges "${{ steps.range.outputs.range }}"); do
+            git log -1 --format=%B "$sha" > "$tmp"
+            if sh hooks/commit-msg "$tmp"; then
+              echo "  ok    $(git log -1 --format='%h %s' "$sha")"
+            else
+              echo "  FAIL  $(git log -1 --format='%h %s' "$sha")"
+              failed=1
+            fi
+          done
+          rm -f "$tmp"
+          exit "$failed"

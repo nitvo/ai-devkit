@@ -121,6 +121,22 @@ Bỏ qua: `Merge*`, `Revert*`, `fixup!`, `squash!`.
 - Máy đã có `core.hooksPath` riêng: setup **không ghi đè**, chỉ cảnh báo.
 - Bỏ qua 1 lần: `git commit --no-verify`. Gỡ hẳn: `git config --global --unset core.hooksPath`.
 
+## Ép chuẩn ở CI
+
+Hook local bỏ qua được bằng `--no-verify` và không chạy khi commit qua web UI.
+`.github/workflows/commit-lint.yml` là chốt chặn cuối, chạy 2 job:
+
+| Job | Việc |
+|---|---|
+| `self-test` | Chạy `hooks/test-commit-msg.sh` — 17 ca, đảm bảo hook không bị sửa hỏng |
+| `commits` | Kiểm mọi commit trong PR bằng **chính `hooks/commit-msg`** |
+
+Dùng lại hook làm nguồn sự thật thay vì cấu hình commitlint riêng, nên luật ở
+local và ở CI **không thể lệch nhau**.
+
+Áp cho dự án khác: copy `hooks/` và `.github/workflows/commit-lint.yml`, rồi bật
+branch protection yêu cầu 2 check này pass trước khi merge.
+
 ## Troubleshooting
 
 **Thấy banner đỏ `■ Failed to install … → PromptScript: PromptScript does not support

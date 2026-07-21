@@ -249,7 +249,7 @@ Không sử dụng các từ:
 
 Độ dài tối đa:
 
-- 50 ký tự (bao gồm type, scope, dấu `:`, khoảng trắng và mô tả).
+- **72 ký tự** cho cả dòng tiêu đề (gồm type, scope, dấu `:`, khoảng trắng, mô tả).
 
 ---
 

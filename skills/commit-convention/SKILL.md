@@ -130,8 +130,8 @@ explanations, file paths, or state the obvious.
 
 Banned words: awesome, amazing, powerful, smart, magic, clean, simple.
 
-Maximum length: **50 characters**, including type, scope, the colon, the space,
-and the description.
+Maximum length: **72 characters** for the whole header, including type, scope,
+the colon, the space, and the description.
 
 ---
 

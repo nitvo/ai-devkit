@@ -19,7 +19,8 @@ Short-lived branches cut from the integration branch. `<TICKET>` is the ticket
 id (for example `SPR-42`).
 
 The prefix is the **Conventional Commits type** of the change — the same word
-used in the commit and in the `type:` label.
+used in the commit. The `type:` label often uses a different word; see the
+mapping table below.
 
 | Pattern | Use case |
 |---|---|
@@ -90,7 +91,8 @@ Implementation notes, compatibility notes, or follow-up work.
 Rules for filling it in:
 
 - **Type of change** — tick exactly one, the same type as the branch prefix and
-  the `type:` label. Append `!` for a breaking change.
+  the commit. Append `!` for a breaking change. Note the `type:` label may use a
+  different word (`feat` -> `type: feature`).
 - **Changes** — list at file level, say what changed and why, not just the path.
 - **Testing** — paste real command output as evidence. Long output goes in a
   `<details><summary>` block. Use `N/A` only when the change has no runtime
@@ -121,8 +123,37 @@ three namespaces — no more, no less:
 | Namespace | Derived from | Example |
 |---|---|---|
 | `target:` | The base branch | `target: staging`, `target: develop`, `target: main` |
-| `type:` | The change type, same word as the branch prefix and the commit type | `type: build`, `type: feature`, `type: fix`, `type: docs` |
+| `type:` | The change type — **see the mapping table below; the label is often not the same word as the commit type** | `type: feature`, `type: bug`, `type: build` |
 | `area:` | The part of the codebase the diff touches | `area: ci`, `area: docs`, `area: skills`, `area: tooling` |
+
+#### Commit type to `type:` label
+
+The label vocabulary and the Conventional Commits vocabulary are **not the same
+words**. Never assume `feat` maps to `type: feat` — it does not exist. Map like
+this, then confirm the label actually exists in `gh label list`:
+
+| Commit type | Branch prefix | `type:` label |
+|---|---|---|
+| `feat` | `feat/` | `type: feature` |
+| `fix` | `fix/` | `type: bug` |
+| `perf` | `perf/` | `type: performance` |
+| `docs` | `docs/` | `type: docs` |
+| `refactor` | `refactor/` | `type: refactor` |
+| `test` | `test/` | `type: test` |
+| `build` | `build/` | `type: build` |
+| `ci` | `ci/` | `type: ci` |
+| `chore` | `chore/` | `type: chore` |
+
+Some repositories carry labels with no Conventional Commits equivalent —
+`type: dependencies`, `type: security`, `type: enhancement`, `type: style`.
+**Prefer the more specific label when it fits**: a dependency bump commits as
+`chore` or `build` but is better labelled `type: dependencies`; a security fix
+commits as `fix` but is better labelled `type: security`.
+
+If no label matches, pick the closest by meaning. If nothing is close, **ask the
+user** — do not create a label.
+
+#### Namespaces to never touch
 
 A repository may carry many more namespaces — `priority:`, `severity:`,
 `status:`, `size:`, `impact:`, `changelog:`, `quality:`. **Never self-assign
