@@ -1,13 +1,13 @@
 #!/bin/sh
-# Self-test cho hooks/commit-msg. Chạy: sh hooks/test-commit-msg.sh
-# CI chạy file này để hook không bị sửa hỏng mà không ai biết.
+# Self-test for hooks/commit-msg. Run: sh hooks/test-commit-msg.sh
+# CI runs this so a broken hook cannot land unnoticed.
 
 HOOK="$(dirname "$0")/commit-msg"
 TMP=$(mktemp)
 PASS=0
 FAIL=0
 
-check() { # $1 = pass|block  $2 = nhãn  $3 = message
+check() { # $1 = pass|block  $2 = label  $3 = message
   printf '%s\n' "$3" > "$TMP"
   if sh "$HOOK" "$TMP" >/dev/null 2>&1; then got=pass; else got=block; fi
   if [ "$got" = "$1" ]; then
@@ -19,35 +19,35 @@ check() { # $1 = pass|block  $2 = nhãn  $3 = message
   fi
 }
 
-# Dựng chuỗi đúng 72 và 73 ký tự, toàn chữ thường.
+# Build subjects of exactly 72 and 73 characters, all lowercase.
 P='feat(skills): '
 LEN72="$P$(printf 'a%.0s' $(seq 1 $((72 - ${#P}))))"
 LEN73="$P$(printf 'a%.0s' $(seq 1 $((73 - ${#P}))))"
 
-echo "Hợp lệ:"
-check pass  "có scope, thường"          "feat(setup): add cross-platform bootstrap"
-check pass  "breaking change"           "feat(api)!: drop legacy endpoint"
-check pass  "scope có dấu gạch"         "refactor(commit-convention): clarify rules"
-check pass  "đúng 72 ký tự"             "$LEN72"
+echo "Valid:"
+check pass  "scope present, lowercase" "feat(setup): add cross-platform bootstrap"
+check pass  "breaking change"          "feat(api)!: drop legacy endpoint"
+check pass  "scope with a hyphen"      "refactor(commit-convention): clarify rules"
+check pass  "exactly 72 characters"    "$LEN72"
 
-echo "Bỏ qua (không phải commit thường):"
+echo "Skipped (not ordinary commits):"
 check pass  "merge"                     "Merge branch 'feature/x' into main"
 check pass  "revert"                    "Revert \"feat(a): b\""
 check pass  "fixup"                     "fixup! feat(a): b"
 check pass  "squash"                    "squash! feat(a): b"
 
-echo "Phải chặn:"
-check block "không có type"             "update stuff"
-check block "type không hợp lệ"         "feature: add x"
-check block "thiếu scope"               "feat: add something"
-check block "thiếu dấu cách sau dấu :"  "feat(setup):missing space"
-check block "chữ hoa trong mô tả"       "feat(setup): add GitHub CLI"
-check block "viết hoa chữ đầu"          "feat(setup): Add something"
-check block "73 ký tự"                  "$LEN73"
-check block "scope viết hoa"            "feat(Setup): add something"
-check block "mô tả rỗng"                "feat(setup): "
+echo "Must be rejected:"
+check block "no type"                  "update stuff"
+check block "invalid type"             "feature: add x"
+check block "missing scope"            "feat: add something"
+check block "no space after the colon" "feat(setup):missing space"
+check block "uppercase in description" "feat(setup): add GitHub CLI"
+check block "capitalised first word"   "feat(setup): Add something"
+check block "73 characters"            "$LEN73"
+check block "uppercase scope"          "feat(Setup): add something"
+check block "empty description"        "feat(setup): "
 
 rm -f "$TMP"
 echo
-echo "Kết quả: $PASS đạt, $FAIL hỏng"
+echo "Result: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ] || exit 1

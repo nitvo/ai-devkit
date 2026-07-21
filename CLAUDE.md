@@ -1,8 +1,5 @@
 # Working agreements
 
-Reply in Vietnamese, even when the question is asked in English.
-*(Personal preference. Teammates should change or remove this line.)*
-
 ## Diction, applies to everything written
 
 Code, comments, documentation, commits, PRs, error messages, logs, UI strings.

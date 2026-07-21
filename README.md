@@ -1,154 +1,148 @@
 # ai-devkit
 
-Bootstrap **một lệnh** để mọi máy trong team về **cùng một** bộ công cụ Claude Code.
-Chạy được trên **Windows / Linux / macOS**.
+One command that brings every machine on a team to the same Claude Code toolset.
+Runs on **Windows, Linux and macOS**.
 
-## Bộ chuẩn (mọi máy sẽ giống hệt)
+## What every machine gets
 
-**Skill = 2 nguồn:**
+**Skills come from two sources:**
 
-| Nguồn | Nội dung | Ví dụ lệnh |
+| Source | Contents | Example command |
 |---|---|---|
-| `Leonxlnx/taste-skill` | Thiết kế giao diện chống "AI-slop" | `/design-taste-frontend` |
-| `mattpocock/skills` | Engineering: TDD, review, chẩn lỗi | `/tdd`, `/code-review`, `/diagnosing-bugs` |
+| `Leonxlnx/taste-skill` | Interface design that avoids templated output | `/design-taste-frontend` |
+| `mattpocock/skills` | Engineering: TDD, review, diagnosis | `/tdd`, `/code-review`, `/diagnosing-bugs` |
 
-**Cộng thêm:**
+**Plus:**
 
-| Thành phần | Là gì | Gọi bằng |
+| Component | What it is | Invoked by |
 |---|---|---|
-| Plugin **ponytail** | Ép viết code tối giản | `/ponytail-review`, `/ponytail-audit` |
-| MCP **chrome-devtools** | Mở Chrome thật soi network/console/performance | tự dùng khi gỡ lỗi web |
-| **CLAUDE.md** | Hướng dẫn chung | tự áp mỗi phiên |
-| Ponytail mặc định | `lite` | đổi bằng `/ponytail ultra` |
+| **ponytail** plugin | Pushes toward minimal code | `/ponytail-review`, `/ponytail-audit` |
+| **chrome-devtools** MCP | Opens real Chrome for network, console and performance | used automatically when debugging the web |
+| **CLAUDE.md** | Shared working agreements | applied every session |
+| ponytail default | `lite` | change with `/ponytail ultra` |
 
-## Yêu cầu mỗi máy
+## Requirements
 
-**Node.js ≥ 22**, **Claude Code** (CLI `claude`), **Google Chrome**, **git**.
+**Node.js 22 or newer**, **Claude Code** (the `claude` CLI), **Google Chrome**, **git**.
 
-**GitHub CLI (`gh`)**: skill `pr-convention` cần nó để đọc label và tạo PR.
-`setup.mjs` tự cài nếu máy có `brew` (macOS) hoặc `winget` (Windows); Linux thì
-báo hướng dẫn để bạn tự cài (tránh đụng `sudo`).
+**GitHub CLI (`gh`)** is needed by the `pr-convention` skill to read labels and
+open pull requests. `setup.mjs` installs it through `brew` on macOS or `winget`
+on Windows. On Linux it prints instructions instead, to avoid touching `sudo`.
 
-> Sau khi cài, **tự chạy `gh auth login`**. Đăng nhập là thao tác tương tác của
-> từng người, script không làm thay.
+> After installation, run `gh auth login` yourself. Signing in is interactive and
+> personal, so the script never does it for you.
 
-## Cách chạy
+## Running it
 
 ```bash
-git clone git@github.com:nitvo/ai-devkit.git
+git clone <repository-url>
 cd ai-devkit
 node setup.mjs
 ```
 
-Trên **Windows**: dùng PowerShell / Git Bash, lệnh y hệt `node setup.mjs`.
+On **Windows**, use PowerShell or Git Bash with the same command.
 
-### Các chế độ
+### Modes
 
-| Lệnh | Ý nghĩa |
+| Command | Meaning |
 |---|---|
-| `node setup.mjs` | **Đồng bộ**: dọn skill cũ (có sao lưu) rồi cài lại đúng 2 bộ chuẩn → mọi máy giống hệt |
-| `node setup.mjs --keep-extras` | Chỉ **thêm**, KHÔNG dọn: giữ nguyên skill sẵn có của máy |
-| `node setup.mjs --dry-run` | Chỉ **in ra sẽ làm gì**, không thay đổi gì |
+| `node setup.mjs` | **Sync**: back up old skills, reinstall both bundles, so every machine matches |
+| `node setup.mjs --keep-extras` | **Add only**, keeping whatever skills the machine already has |
+| `node setup.mjs --dry-run` | Print what would happen, change nothing |
 
-## "Dọn sạch" có mất dữ liệu không? → KHÔNG
+## Does syncing lose data?
 
-Chế độ đồng bộ **dời** (không xoá) thư mục skill cũ sang bản sao lưu:
+No. Sync **moves** the old skill directories rather than deleting them:
 
-- `~/.claude/skills` → `~/.claude/skills.backup-<thời gian>`
-- `~/.agents/skills` → `~/.agents/skills.backup-<thời gian>`
+- `~/.claude/skills` becomes `~/.claude/skills.backup-<timestamp>`
+- `~/.agents/skills` becomes `~/.agents/skills.backup-<timestamp>`
 
-Rồi cài lại 2 bộ chuẩn từ nguồn (bản mới nhất). Hoàn tác được bằng cách đổi tên
-thư mục `.backup-*` trở lại. Yên tâm rồi thì xoá hẳn bản backup.
+Both bundles are then reinstalled from source at their latest version. Renaming a
+`.backup-*` directory restores the previous state. Delete the backups once you
+are satisfied.
 
-> Vì sao "dọn rồi cài lại" thay vì "xoá theo danh sách"? Repo skill có thể thêm
-> skill mới theo thời gian (vd `mattpocock/skills` đang có 41 skill). Cài lại từ
-> nguồn đảm bảo mọi máy luôn khớp **bản mới nhất**, không lệ thuộc danh sách cứng.
+> Why reinstall rather than remove a fixed list? Skill repositories grow over
+> time, so a hardcoded list goes stale. Reinstalling from source keeps every
+> machine on the current version.
 
-## Ghi chú đa OS
+## Cross-platform notes
 
-- **Symlink**: cài skill bằng `--copy` (chép file thật) để tránh lỗi symlink trên Windows.
-- **Đường dẫn ponytail config** tự đúng theo OS (`~/.config/ponytail` hoặc `%APPDATA%\ponytail`).
-- **CLAUDE.md**: nếu máy đã có bản cá nhân, script KHÔNG đè: để bản chung ra
-  `~/.claude/CLAUDE.shared.md` cho bạn tự gộp.
-- Dòng *"Luôn trả lời bằng tiếng Việt"* trong `CLAUDE.md` là sở thích cá nhân: chỉnh/bỏ tuỳ team.
+- **Symlinks**: skills install with `--copy`, writing real files, because
+  symlinks are unreliable on Windows.
+- **Ponytail config path** follows the platform, either `~/.config/ponytail` or
+  `%APPDATA%\ponytail`.
+- **CLAUDE.md**: a personal copy is never overwritten. The shared version is
+  written to `~/.claude/CLAUDE.shared.md` for you to merge.
 
-## Kiểm tra sau khi cài
+## Verifying the install
 
 ```bash
 claude plugin list      # ponytail@ponytail (enabled)
-claude mcp list         # chrome-devtools ✔ Connected
-# mở phiên mới → gõ /tdd và /design-taste-frontend
+claude mcp list         # chrome-devtools connected
+# open a new session, then type /tdd and /design-taste-frontend
 ```
 
-## Skill: bản cài vs bản đọc
+## Commit hook
 
-`docs/vi/` mirror đúng cấu trúc `skills/`, nên nhìn path là biết cặp nào với cặp nào:
+`setup.mjs` installs `hooks/commit-msg` into `~/.claude/git-hooks/` and points
+`git config --global core.hooksPath` at it, covering every repository on the
+machine.
 
-```text
-skills/<tên>/SKILL.md      ← tiếng Anh, ĐƯỢC CÀI
-docs/vi/<tên>/SKILL.md     ← tiếng Việt, chỉ để đọc
-```
-
-| Thư mục | Ngôn ngữ | Vai trò |
-|---|---|---|
-| `skills/*/SKILL.md` | **Tiếng Anh** | Bản **được cài** lên máy (`setup.mjs` chỉ chép `skills/`) |
-| `docs/vi/*/SKILL.md` | Tiếng Việt | Chỉ để **đọc hiểu**, không được cài |
-
-Sửa skill thì **sửa bản tiếng Anh** (đó mới là bản chạy), rồi cập nhật bản
-tiếng Việt trong cùng commit để hai bên không trôi lệch.
-
-> Dòng `description` trong frontmatter vẫn **giữ cụm kích hoạt tiếng Việt**
-> (`tạo PR`, `commit giúp tôi`). Đây là yêu cầu chức năng, không phải sở
-> thích: bỏ đi thì skill không tự nổ khi bạn nhắn bằng tiếng Việt.
-
-## Git hook chặn commit sai chuẩn
-
-`setup.mjs` cài `hooks/commit-msg` vào `~/.claude/git-hooks/` và đặt
-`git config --global core.hooksPath`, áp cho **mọi repo trên máy**.
-
-Chặn khi: sai chuẩn Conventional Commits, type không hợp lệ, hoặc tiêu đề > 50 ký tự.
-Bỏ qua: `Merge*`, `Revert*`, `fixup!`, `squash!`.
+It rejects a commit when the subject is not a valid Conventional Commit, uses an
+unknown type, omits the scope, contains uppercase, or exceeds 72 characters.
+Merge, revert, fixup and squash commits are skipped.
 
 ```
-✗ Commit bị chặn — sai chuẩn Conventional Commits.
-  Nhận được : update stuff
-  Cần dạng  : <type>[(scope)]: <mô tả>
+✗ Commit rejected: not a valid Conventional Commit.
+  Received : update stuff
+  Expected : <type>(<scope>): <description>   (scope REQUIRED)
 ```
 
-**Lưu ý:**
-- Repo dùng **Husky không bị ảnh hưởng**: Husky đặt `core.hooksPath` ở scope local, local thắng global.
-- Repo dùng `.git/hooks/commit-msg` thuần **sẽ bị bỏ qua** (đây là đánh đổi của `core.hooksPath` global).
-- Máy đã có `core.hooksPath` riêng: setup **không ghi đè**, chỉ cảnh báo.
-- Bỏ qua 1 lần: `git commit --no-verify`. Gỡ hẳn: `git config --global --unset core.hooksPath`.
+**Notes:**
 
-## Ép chuẩn ở CI
+- Repositories using **Husky are unaffected**. Husky sets `core.hooksPath`
+  locally, and local configuration wins over global.
+- A plain `.git/hooks/commit-msg` **is bypassed**. That is the trade-off of a
+  global `core.hooksPath`.
+- If the machine already sets `core.hooksPath`, setup **leaves it alone** and
+  warns.
+- Skip once with `git commit --no-verify`. Remove entirely with
+  `git config --global --unset core.hooksPath`.
 
-Hook local bỏ qua được bằng `--no-verify` và không chạy khi commit qua web UI.
-`.github/workflows/commit-lint.yml` là chốt chặn cuối, chạy 2 job:
+## Enforcement in CI
 
-| Job | Việc |
+The local hook can be skipped with `--no-verify` and does not run for commits
+made through the web UI. `.github/workflows/commit-lint.yml` is the last line of
+defence and runs three jobs:
+
+| Job | Purpose |
 |---|---|
-| `self-test` | Chạy `hooks/test-commit-msg.sh`: 17 ca, đảm bảo hook không bị sửa hỏng |
-| `commits` | Kiểm mọi commit trong PR bằng **chính `hooks/commit-msg`** |
+| `self-test` | Runs `hooks/test-commit-msg.sh`, 17 cases, so a broken hook cannot land |
+| `diction` | Rejects em dashes, clause-joining semicolons and other AI writing tells |
+| `commits` | Validates every commit in a pull request using `hooks/commit-msg` itself |
 
-Dùng lại hook làm nguồn sự thật thay vì cấu hình commitlint riêng, nên luật ở
-local và ở CI **không thể lệch nhau**.
+Reusing the hook as the single source of truth means the local rules and the CI
+rules cannot drift apart.
 
-Áp cho dự án khác: copy `hooks/` và `.github/workflows/commit-lint.yml`, rồi bật
-branch protection yêu cầu 2 check này pass trước khi merge.
+To adopt this elsewhere, copy `hooks/` and `.github/workflows/commit-lint.yml`,
+then enable branch protection requiring these checks before merge.
 
 ## Troubleshooting
 
-**Thấy banner đỏ `Failed to install ... PromptScript: PromptScript does not support
-global skill installation`?** Đó **KHÔNG phải lỗi.** Đó chỉ là 1 agent tên PromptScript
-không hỗ trợ cài global. Claude Code vẫn cài đủ (xem dòng `✓ (copied) → ~/.claude/skills/…`
-ngay phía trên, và tổng kết `✗ Lỗi: 0`). Bản mới đã thêm `--agent claude-code` nên
-không còn banner này.
+**A red banner reading `Failed to install ... PromptScript: PromptScript does not
+support global skill installation`** is not an error. PromptScript is one agent
+among many and does not support global installs. Claude Code still receives
+everything, as the `(copied)` lines just above show. Current versions pass
+`--agent claude-code`, so the banner no longer appears.
 
-## Gỡ cài
+## Uninstalling
 
 ```bash
 claude plugin uninstall ponytail@ponytail
 claude mcp remove chrome-devtools -s user
 npx -y skills remove --global --all
 ```
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).

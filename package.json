@@ -2,7 +2,7 @@
   "name": "ai-devkit",
   "version": "1.0.0",
   "private": true,
-  "description": "Bootstrap chung cho team: bộ skill FE + ponytail + chrome-devtools MCP + CLAUDE.md",
+  "description": "Shared team bootstrap: skill bundles, ponytail, chrome-devtools MCP and CLAUDE.md",
   "type": "module",
   "scripts": {
     "setup": "node setup.mjs"

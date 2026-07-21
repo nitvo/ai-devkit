@@ -16,7 +16,7 @@ repositories with no `CONTRIBUTING.md`. If the repository **does** have a
 ### Branches
 
 Short-lived branches cut from the integration branch. `<TICKET>` is the ticket
-id (for example `SPR-42`).
+id (for example `PROJ-42`).
 
 The prefix is the **Conventional Commits type** of the change, the same word
 used in the commit. The `type:` label often uses a different word. See the
@@ -27,7 +27,7 @@ mapping table below.
 | `<type>/<TICKET>` | `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `ci/`, `build/`, `chore/` |
 | `<type>/<TICKET>_<M>` | Cherry-pick to the test branch. `M` is the delivery number, starting at `1`, incremented on each re-delivery after a fix |
 
-Example: `build/SPR-8`, then `build/SPR-8_1` for the cherry-pick.
+Example: `build/PROJ-8`, then `build/PROJ-8_1` for the cherry-pick.
 
 ### PR title
 
@@ -41,7 +41,7 @@ Example: `build/SPR-8`, then `build/SPR-8_1` for the cherry-pick.
 - **Sentence case**. Capitalise the first word only: `Configure npm publishing`.
   This differs from commit subjects, which are entirely lowercase.
 
-Example: `[Nitvo] [STG] SPR-3 Add bootstrap command`
+Example: `[Acme] [STG] PROJ-3 Add bootstrap command`
 
 ### PR body
 
@@ -80,12 +80,12 @@ Implementation notes, compatibility notes, or follow-up work.
 
 | PR | Branch | Description |
 |----|--------|-------------|
-| #15 | `build/SPR-8` -> `staging` | This PR |
-| #16 | `build/SPR-8_1` -> `develop` | Cherry-pick |
+| #15 | `build/PROJ-8` -> `staging` | This PR |
+| #16 | `build/PROJ-8_1` -> `develop` | Cherry-pick |
 
 ## Linked issue
 
-[SPR-8](https://jira.example.com/browse/SPR-8)
+[PROJ-8](https://jira.example.com/browse/PROJ-8)
 ```
 
 Rules for filling it in:

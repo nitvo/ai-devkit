@@ -1,6 +1,7 @@
 #!/bin/sh
-# ai-devkit, chặn commit message sai chuẩn Conventional Commits.
-# Cài global qua core.hooksPath (xem setup.mjs). Bỏ qua: merge/revert/fixup/squash.
+# ai-devkit: reject commit messages that break the Conventional Commits standard.
+# Installed globally through core.hooksPath (see setup.mjs).
+# Merge, revert, fixup and squash commits are skipped.
 
 MAX_LEN=72
 TYPES='feat|fix|refactor|perf|docs|test|build|ci|chore|infra|revert'
@@ -13,13 +14,13 @@ esac
 
 if ! printf '%s' "$header" | grep -Eq "^($TYPES)\([a-z0-9._/-]+\)!?: .+"; then
   echo "" >&2
-  echo "✗ Commit bị chặn: sai chuẩn Conventional Commits." >&2
+  echo "✗ Commit rejected: not a valid Conventional Commit." >&2
   echo "" >&2
-  echo "  Nhận được : $header" >&2
-  echo "  Cần dạng  : <type>(<scope>): <mô tả>   (scope BẮT BUỘC)" >&2
-  echo "  Type hợp lệ: $(echo "$TYPES" | tr '|' ' ')" >&2
+  echo "  Received : $header" >&2
+  echo "  Expected : <type>(<scope>): <description>   (scope REQUIRED)" >&2
+  echo "  Valid types: $(echo "$TYPES" | tr '|' ' ')" >&2
   echo "" >&2
-  echo "  Ví dụ: feat(auth): add refresh token rotation" >&2
+  echo "  Example: feat(auth): add refresh token rotation" >&2
   echo "" >&2
   exit 1
 fi
@@ -27,10 +28,10 @@ fi
 desc=$(printf '%s' "$header" | sed -E "s/^($TYPES)\([a-z0-9._/-]+\)!?: //")
 if printf '%s' "$desc" | grep -q '[A-Z]'; then
   echo "" >&2
-  echo "✗ Commit bị chặn: tiêu đề phải viết THƯỜNG hoàn toàn." >&2
+  echo "✗ Commit rejected: the subject must be entirely lowercase." >&2
   echo "" >&2
-  echo "  Nhận được : $header" >&2
-  echo "  Sửa thành : $(printf '%s' "$header" | tr '[:upper:]' '[:lower:]')" >&2
+  echo "  Received : $header" >&2
+  echo "  Fix to   : $(printf '%s' "$header" | tr '[:upper:]' '[:lower:]')" >&2
   echo "" >&2
   exit 1
 fi
@@ -38,7 +39,7 @@ fi
 len=$(printf '%s' "$header" | wc -m | tr -d ' ')
 if [ "$len" -gt "$MAX_LEN" ]; then
   echo "" >&2
-  echo "✗ Commit bị chặn: tiêu đề $len ký tự, tối đa $MAX_LEN." >&2
+  echo "✗ Commit rejected: subject is $len characters, limit is $MAX_LEN." >&2
   echo "  $header" >&2
   echo "" >&2
   exit 1

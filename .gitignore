@@ -2,3 +2,6 @@
 .DS_Store
 node_modules/
 *.log
+
+# Vietnamese reading copy, kept locally and never published
+docs/vi/

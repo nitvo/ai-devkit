@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Bắt các dấu hiệu văn AI trong tài liệu và code.
+"""Catch AI writing tells in documentation and code.
 
-Chỉ soi văn xuôi. Khối code và đoạn trong backtick được bỏ qua, nên quy tắc tự
-nhắc tới ký tự bị cấm (viết trong backtick) không bị chính nó bắt.
+Only prose is inspected. Fenced blocks and backtick spans are stripped, so a
+rule that quotes a banned character inside backticks does not flag itself.
 
-Chạy: python3 scripts/check-diction.py
+Run: python3 scripts/check-diction.py
 """
 
 import re
@@ -15,25 +15,25 @@ ROOT = Path(__file__).resolve().parent.parent
 EXTS = {".md", ".mjs", ".yml", ".sh", ".py"}
 EXTRA = {"hooks/commit-msg"}
 
-# Ký tự Unicode: sai ở mọi nơi, kể cả trong code.
+# Unicode punctuation: wrong everywhere, including inside code.
 PUNCT = [
-    ("em-dash", re.compile("\u2014"), "Tách thành hai câu, hoặc dùng dấu hai chấm."),
-    ("en-dash", re.compile("\u2013"), "Dùng dấu gạch nối ASCII."),
-    ("ellipsis", re.compile("\u2026"), "Dùng ba dấu chấm ASCII, hoặc bỏ."),
+    ("em-dash", re.compile("\u2014"), "Split into two sentences, or use a colon."),
+    ("en-dash", re.compile("\u2013"), "Use an ASCII hyphen."),
+    ("ellipsis", re.compile("\u2026"), "Use three ASCII dots, or drop it."),
 ]
 
-# Chỉ áp cho văn xuôi (.md). Trong code, dấu chấm phẩy là cú pháp.
+# Prose only (.md). In code, a semicolon is syntax.
 PROSE = [
-    ("semicolon", re.compile(r"[a-z]; [a-z]"), "Tách thành hai câu."),
-    ("not-only", re.compile(r"\bnot (only|just)\b", re.I), "Viết thẳng điều muốn nói."),
+    ("semicolon", re.compile(r"[a-z]; [a-z]"), "Split into two sentences."),
+    ("not-only", re.compile(r"\bnot (only|just)\b", re.I), "State the point directly."),
 ]
 
-# Arrow chỉ được dùng trong bảng, bullet, hoặc output CLI. Cấm trong văn xuôi.
+# Arrows belong in tables, lists and CLI output. Not in prose.
 ARROW = re.compile("\u2192")
 
 
 def strip_code(text):
-    """Bỏ khối code và đoạn backtick, thay bằng khoảng trắng để giữ số dòng."""
+    """Blank out fenced blocks and backtick spans, keeping line numbers."""
     def blank(m):
         return re.sub(r"[^\n]", " ", m.group(0))
 
@@ -43,7 +43,7 @@ def strip_code(text):
 
 
 def is_structural(line):
-    """Bảng, bullet, list đánh số, heading: arrow ở đây là ánh xạ, chấp nhận được."""
+    """Tables, lists and headings: an arrow there is a mapping, which is fine."""
     s = line.strip()
     return (s.startswith(("|", "- ", "* ", "#"))
             or re.match(r"^\d+\.\s", s) is not None)
@@ -72,11 +72,11 @@ for path, rel in files():
                 print(f"{rel}:{n}: {name} -- {fix}")
                 hits += 1
         if is_md and ARROW.search(line) and not is_structural(line):
-            print(f"{rel}:{n}: arrow-in-prose -- Chỉ dùng trong bảng, bullet, output CLI.")
+            print(f"{rel}:{n}: arrow-in-prose -- Use only in tables, lists and CLI output.")
             hits += 1
 
 print()
 if hits:
-    print(f"{hits} ca cần sửa")
+    print(f"{hits} issues to fix")
     sys.exit(1)
-print("Không có ca nào")
+print("No issues")
