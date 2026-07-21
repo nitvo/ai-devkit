@@ -160,7 +160,8 @@ Repo có thể còn nhiều nhóm khác — `priority:`, `severity:`, `status:`,
 `impact:`, `changelog:`, `quality:`. **Tuyệt đối không tự gán** mấy nhóm này, vì
 chúng là phán đoán triage của con người. Thấy cần thì **hỏi user**.
 
-Repo không dùng namespace thì chọn label thường sát nghĩa nhất, vẫn **tối đa 1–3**.
+Repo không dùng namespace thì chọn label thường sát nghĩa nhất (`enhancement`
+cho một feature), vẫn **tối đa 1–3**.
 
 **Không tự tạo label mới** — tạo label là thay đổi cấu hình repo. Không có label
 phù hợp → hỏi user chọn trong danh sách hiện có, hoặc xin phép tạo.
@@ -280,6 +281,34 @@ gh pr create \
   --reviewer <user1>[,<user2>] \
   --label <label>
 ```
+
+---
+
+## Cấu từ
+
+Áp cho PR title và mọi mục trong body.
+
+| Nhóm | Từ bị cấm |
+|---|---|
+| Khoe | awesome, amazing, powerful, magic, elegant, seamless, robust, blazing, comprehensive |
+| Tự chấm điểm | clean, simple, nice, better, improved, optimal, smart |
+| Từ đệm | just, simply, easily, very, quite, highly, significantly, greatly |
+| Nói về chính PR | this commit, this PR, in this change, we now |
+| Chuyển ý rỗng | additionally, furthermore, moreover, it is worth noting |
+
+- Tuyên bố về hiệu năng hay độ ổn định phải kèm con số, không thì bỏ.
+- Không emoji, dấu chấm than, ngôi thứ nhất, câu hỏi tu từ.
+- `Description` nêu đổi gì và vì sao. Không quảng cáo thay đổi đó.
+- `Changes` liệt kê sự thật theo file, không dùng tính từ.
+
+| Tránh | Viết |
+|---|---|
+| `Cleanly refactor the messy auth flow` | `Extract token validation from the auth handler` |
+| `Significantly improve build speed` | `Cache node_modules between CI runs` |
+
+Chỉ theo quy ước đã công bố — Conventional Commits, Angular commit guidelines,
+`eng-practices` của Google, 7 quy tắc của Chris Beams. Convention của repo
+thắng các quy tắc này.
 
 ---
 

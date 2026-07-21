@@ -101,18 +101,8 @@ Xác định:
 
 Nếu repository đã có convention rõ ràng thì luôn ưu tiên convention đó.
 
-Bỏ qua các commit chất lượng thấp như:
-
-- fix
-- update
-- temp
-- test
-- commit
-- abc
-- 1
-- 2
-
-hoặc các placeholder tương tự.
+Bỏ qua các commit chất lượng thấp như `fix`, `update`, `temp`, `test`,
+`commit`, `abc`, `1`, `2`, hoặc placeholder tương tự.
 
 ---
 
@@ -150,32 +140,17 @@ Không được suy diễn Breaking Change.
 
 ## Quy tắc Type
 
-Luôn chọn type phù hợp nhất:
+Luôn chọn type phù hợp nhất: `feat`, `fix`, `refactor`, `perf`, `docs`,
+`test`, `build`, `ci`, `chore`, `infra`, `revert`.
 
-- feat
-- fix
-- refactor
-- perf
-- docs
-- test
-- build
-- ci
-- chore
-- infra
-- revert
-
-Nếu không đủ thông tin thì sử dụng:
-
-```text
-chore
-```
+Không đủ thông tin thì dùng `chore`.
 
 ---
 
 ## Quy tắc Scope
 
 **Scope là BẮT BUỘC.** Conventional Commits coi scope là tùy chọn, chuẩn này thì
-không. Mọi commit phải có scope: `type(scope): mô tả`.
+không. Mọi commit phải có scope: `type(scope): description`.
 
 Thay đổi trải rộng cả repo thì vẫn chọn một scope rộng nhưng có thật (`repo`,
 `setup`, `build`) — không bao giờ bỏ trống scope.
@@ -188,18 +163,8 @@ Nếu chưa có:
 - Ngắn gọn.
 - Phản ánh đúng domain.
 
-Ví dụ:
-
-- auth
-- payment
-- docker
-- infra
-- cron
-- cache
-- websocket
-- security
-- logging
-- monitoring
+Ví dụ: `auth`, `payment`, `docker`, `infra`, `cron`, `cache`, `websocket`,
+`security`, `logging`, `monitoring`.
 
 Nếu không chắc chắn:
 
@@ -249,7 +214,7 @@ Không sử dụng các từ:
 
 Độ dài tối đa:
 
-- **72 ký tự** cho cả dòng tiêu đề (gồm type, scope, dấu `:`, khoảng trắng, mô tả).
+- **72 ký tự** cho cả dòng tiêu đề (gồm type, scope, dấu hai chấm, khoảng trắng, mô tả).
 
 ---
 
@@ -307,6 +272,57 @@ Không sử dụng:
 - Văn phong hội thoại.
 - Văn phong AI.
 - Ngôn ngữ cường điệu.
+
+---
+
+## Cấu từ
+
+Áp cho tiêu đề, body, và cả mô tả PR.
+
+### Thể mệnh lệnh
+
+Tiêu đề phải hoàn thành được câu "Commit này sẽ ___". Viết `add`, không viết
+`added` hay `adds`.
+
+### Từ vựng bị cấm
+
+| Nhóm | Từ | Vì sao |
+|---|---|---|
+| Khoe | awesome, amazing, powerful, magic, elegant, seamless, robust, blazing, comprehensive | Là marketing, không phải sự thật |
+| Tự chấm điểm | clean, simple, nice, better, improved, optimal, smart | Tác giả không tự chấm điểm việc mình làm |
+| Từ đệm | just, simply, easily, very, quite, highly, significantly, greatly | Không mang thông tin |
+| Nói về chính commit | this commit, this PR, in this change, we now | Người đọc đã biết đang đọc cái gì |
+| Chuyển ý rỗng | additionally, furthermore, moreover, it is worth noting | Độn chữ |
+
+### Không tuyên bố khi chưa đo
+
+Tuyên bố về hiệu năng, độ ổn định hay kích thước phải kèm con số, không thì bỏ.
+
+- Tránh: `perf(db): significantly improve query speed`
+- Viết: `perf(db): add index on orders.created_at`
+- Body khi đó có thể ghi: `p99 on /orders drops from 820ms to 45ms`
+
+### Viết lại
+
+| Tránh | Viết |
+|---|---|
+| `feat(cache): add powerful new caching layer` | `feat(cache): cache api responses with lru_cache` |
+| `fix(auth): simply fix the login bug` | `fix(auth): reject expired refresh tokens` |
+| `refactor(api): clean up messy handler code` | `refactor(api): extract validation from handler` |
+| `docs(readme): improve the docs a bit` | `docs(readme): document the setup flags` |
+
+### Cấm thêm
+
+Emoji, dấu chấm than, ngôi thứ nhất (`I`, `we`), câu hỏi tu từ, và mọi câu mô tả
+bản thân commit thay vì mô tả thay đổi.
+
+### Nguồn tham chiếu
+
+Chỉ theo các quy ước đã công bố — [Conventional
+Commits](https://www.conventionalcommits.org), Angular commit guidelines,
+hướng dẫn viết CL description trong `eng-practices` của Google, CONTRIBUTING
+của dự án Go, và 7 quy tắc của Chris Beams. Repo có convention riêng thì
+convention của repo thắng.
 
 ---
 

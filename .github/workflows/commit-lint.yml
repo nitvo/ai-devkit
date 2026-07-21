@@ -19,6 +19,13 @@ jobs:
       - uses: actions/checkout@v4
       - run: sh hooks/test-commit-msg.sh
 
+  mirrors:
+    name: en/vi mirrors in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check-mirrors.py
+
   commits:
     name: validate commit messages
     runs-on: ubuntu-latest

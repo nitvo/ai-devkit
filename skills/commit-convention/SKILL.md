@@ -170,17 +170,72 @@ Do not use emoji, conversational prose, AI-style prose, or hyperbole.
 
 ---
 
+## Diction
+
+Applies to the subject, the body, and any PR description.
+
+### Imperative mood
+
+The subject completes the sentence "This commit will ___". Write `add`, never
+`added` or `adds`.
+
+### Banned vocabulary
+
+| Class | Words | Reason |
+|---|---|---|
+| Praise | awesome, amazing, powerful, magic, elegant, seamless, robust, blazing, comprehensive | Marketing, not fact |
+| Self-assessment | clean, simple, nice, better, improved, optimal, smart | An author does not grade their own work |
+| Filler | just, simply, easily, very, quite, highly, significantly, greatly | Carries no information |
+| Meta-commentary | this commit, this PR, in this change, we now | The reader already knows what they are reading |
+| Empty transitions | additionally, furthermore, moreover, it is worth noting | Padding |
+
+### No unmeasured claims
+
+A performance, reliability or size claim carries a number, or it is dropped.
+
+- Avoid: `perf(db): significantly improve query speed`
+- Write: `perf(db): add index on orders.created_at`
+- Body may then state: `p99 on /orders drops from 820ms to 45ms`
+
+### Rewrites
+
+| Avoid | Write |
+|---|---|
+| `feat(cache): add powerful new caching layer` | `feat(cache): cache api responses with lru_cache` |
+| `fix(auth): simply fix the login bug` | `fix(auth): reject expired refresh tokens` |
+| `refactor(api): clean up messy handler code` | `refactor(api): extract validation from handler` |
+| `docs(readme): improve the docs a bit` | `docs(readme): document the setup flags` |
+
+### Also banned
+
+Emoji, exclamation marks, first person (`I`, `we`), rhetorical questions,
+and any sentence that describes the commit instead of the change.
+
+### Reference conventions
+
+These rules follow published conventions only — [Conventional
+Commits](https://www.conventionalcommits.org), the Angular commit guidelines,
+Google's `eng-practices` guidance on writing CL descriptions, the Go project's
+CONTRIBUTING, and Chris Beams' seven rules. Where a repository's own convention
+differs, the repository wins.
+
+---
+
 ## Output
 
 Always return exactly **two** commit messages.
 
-**Commit 1** — English. **This is the one that goes into Git.** Every commit in
-the repository is English; the standard is single-language.
+### Commit 1
 
-**Commit 2** — Vietnamese, an accurate technical translation that preserves
-domain terminology. It exists **only so the author can verify the English
-version says what they meant**. Never commit it, never append it to commit 1,
-never put both in the same message.
+English. **This is the one that goes into Git.** Every commit in the repository
+is English; the standard is single-language.
+
+### Commit 2
+
+Vietnamese, an accurate technical translation that preserves domain
+terminology. It exists **only so the author can verify the English version says
+what they meant**. Never commit it, never append it to commit 1, never put both
+in the same message.
 
 ### Output format
 

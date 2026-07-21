@@ -293,6 +293,34 @@ gh pr create \
 
 ---
 
+## Diction
+
+Applies to the PR title and every section of the body.
+
+| Class | Banned words |
+|---|---|
+| Praise | awesome, amazing, powerful, magic, elegant, seamless, robust, blazing, comprehensive |
+| Self-assessment | clean, simple, nice, better, improved, optimal, smart |
+| Filler | just, simply, easily, very, quite, highly, significantly, greatly |
+| Meta-commentary | this commit, this PR, in this change, we now |
+| Empty transitions | additionally, furthermore, moreover, it is worth noting |
+
+- A performance or reliability claim carries a number, or it is dropped.
+- No emoji, exclamation marks, first person, or rhetorical questions.
+- `Description` states what changed and why. It does not sell the change.
+- `Changes` lists facts per file, not adjectives.
+
+| Avoid | Write |
+|---|---|
+| `Cleanly refactor the messy auth flow` | `Extract token validation from the auth handler` |
+| `Significantly improve build speed` | `Cache node_modules between CI runs` |
+
+Follows published conventions only — Conventional Commits, the Angular commit
+guidelines, Google's `eng-practices`, and Chris Beams' seven rules. A
+repository's own convention outranks these.
+
+---
+
 ## Prohibited
 
 - Fabricating ticket numbers, Jira ids, test results, or evidence.

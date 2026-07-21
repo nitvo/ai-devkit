@@ -53,8 +53,8 @@ if (Number(process.versions.node.split(".")[0]) < 22) {
 }
 try { execSync("claude --version", { stdio: "ignore", shell: true }); }
 catch { console.error("\n✗ Không tìm thấy Claude Code CLI (`claude`). Cài Claude Code rồi chạy lại."); process.exit(1); }
-console.log(`\n✅ Node ${process.versions.node}, Claude Code CLI OK.`);
-console.log(DRY ? "🔍 DRY-RUN — không thay đổi gì thật." : (PRUNE ? "🧹 Chế độ ĐỒNG BỘ (dọn sạch skill cũ + cài lại)." : "➕ Chế độ chỉ-thêm (giữ skill sẵn có)."));
+console.log(`\n✓ Node ${process.versions.node}, Claude Code CLI OK.`);
+console.log(DRY ? "DRY-RUN — không thay đổi gì thật." : (PRUNE ? "Chế độ ĐỒNG BỘ (dọn sạch skill cũ + cài lại)." : "Chế độ chỉ-thêm (giữ skill sẵn có)."));
 
 // ── 0b. GitHub CLI (gh) — skill pr-convention cần để đọc label / tạo PR ──
 const hasCmd = (c) => { try { execSync(`${c} --version`, { stdio: "ignore", shell: true }); return true; } catch { return false; } };
@@ -179,10 +179,10 @@ else try {
 
 // ── Tổng kết ─────────────────────────────────────────────────────────────
 console.log("\n────────────────────────────────────────");
-console.log(`✅ Xong: ${ok.length}   ⏭  Bỏ qua: ${skip.length}   ✗ Lỗi: ${fail.length}`);
+console.log(`✓ Xong: ${ok.length}   ⏭  Bỏ qua: ${skip.length}   ✗ Lỗi: ${fail.length}`);
 if (ok.length)   console.log("\nĐã làm:\n  - " + ok.join("\n  - "));
 if (skip.length) console.log("\nBỏ qua:\n  - " + skip.join("\n  - "));
 if (fail.length) console.log("\n⚠ Lỗi (xem log trên):\n  - " + fail.join("\n  - "));
-if (PRUNE && !DRY) console.log("\nℹ️  Skill cũ đã được DỜI sang thư mục *.backup-… (không mất). Xoá hẳn khi đã yên tâm.");
-console.log("\n👉 Mở phiên Claude Code MỚI để có hiệu lực. Kiểm tra: `claude plugin list`, `claude mcp list`, gõ /tdd và /design-taste-frontend");
+if (PRUNE && !DRY) console.log("\nLưu ý: skill cũ đã được DỜI sang thư mục *.backup-… (không mất). Xoá hẳn khi đã yên tâm.");
+console.log("\nMở phiên Claude Code MỚI để có hiệu lực. Kiểm tra: `claude plugin list`, `claude mcp list`, gõ /tdd và /design-taste-frontend");
 process.exit(fail.length ? 1 : 0);
