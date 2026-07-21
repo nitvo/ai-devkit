@@ -82,7 +82,7 @@ Never infer a breaking change.
 ## Commit structure
 
 ```text
-<type>[optional scope]: <short description>
+<type>(<scope>): <short description>
 
 [optional body]
 
@@ -174,10 +174,13 @@ Do not use emoji, conversational prose, AI-style prose, or hyperbole.
 
 Always return exactly **two** commit messages.
 
-**Commit 1** — English, directly usable in Git.
+**Commit 1** — English. **This is the one that goes into Git.** Every commit in
+the repository is English; the standard is single-language.
 
 **Commit 2** — Vietnamese, an accurate technical translation that preserves
-domain terminology.
+domain terminology. It exists **only so the author can verify the English
+version says what they meant**. Never commit it, never append it to commit 1,
+never put both in the same message.
 
 ### Output format
 

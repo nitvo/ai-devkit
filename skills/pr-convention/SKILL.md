@@ -186,10 +186,29 @@ cherry-pick entirely.
 
 - At least one approval before merge.
 - Squash merge is the default for integration and test branches.
-- **On squash, do not reuse the PR title as the commit message.** The PR title
-  carries the `[COMPANY] [TARGET]` prefix and is therefore not a valid
-  Conventional Commit. Write a separate commit message using the
-  `commit-convention` skill.
+
+**The PR title must not become the squash commit message.** It carries the
+`[COMPANY] [TARGET]` prefix and is not a valid Conventional Commit.
+
+Required repository settings:
+
+```bash
+gh api -X PATCH repos/<owner>/<repo> \
+  -f squash_merge_commit_title=COMMIT_OR_PR_TITLE \
+  -f squash_merge_commit_message=COMMIT_MESSAGES
+```
+
+`COMMIT_OR_PR_TITLE` uses the commit subject when the PR has **exactly one
+commit**, and falls back to the PR title when it has more. So:
+
+| PR contents | Squash subject | Action |
+|---|---|---|
+| 1 commit | The commit subject | Nothing — already conventional |
+| 2+ commits | The PR title | **Edit the squash message box by hand at merge time** |
+
+Prefer one commit per PR. When a PR carries several commits, whoever merges must
+replace the pre-filled subject with a Conventional Commits message written per
+the `commit-convention` skill.
 
 ---
 

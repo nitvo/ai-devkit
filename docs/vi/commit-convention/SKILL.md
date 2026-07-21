@@ -139,7 +139,7 @@ Không được suy diễn Breaking Change.
 ## Cấu trúc Commit
 
 ```text
-<type>[optional scope]: <short description>
+<type>(<scope>): <short description>
 
 [optional body]
 
@@ -317,13 +317,15 @@ Luôn trả về đúng **02 commit message**.
 ### Commit 1
 
 - Tiếng Anh.
-- Có thể copy trực tiếp vào Git.
+- **Đây là bản đi vào Git.** Mọi commit trong repo đều tiếng Anh — chuẩn là
+  một ngôn ngữ duy nhất.
 
 ### Commit 2
 
-- Tiếng Việt.
-- Dịch chính xác ý nghĩa kỹ thuật.
-- Không dịch sai thuật ngữ chuyên môn.
+- Tiếng Việt, dịch chính xác ý nghĩa kỹ thuật, không sai thuật ngữ.
+- Chỉ để **tác giả tự kiểm bản tiếng Anh có đúng ý mình không**.
+- Tuyệt đối không commit bản này, không nối vào commit 1, không để cả hai
+  trong cùng một message.
 
 ---
 

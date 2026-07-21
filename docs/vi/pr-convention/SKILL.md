@@ -181,9 +181,28 @@ Repo chỉ có một nhánh chính → **chỉ 1 PR**, bỏ qua toàn bộ phầ
 
 - Tối thiểu 1 approval trước khi merge.
 - Squash merge là mặc định cho nhánh tích hợp và nhánh test.
-- **Khi squash: không lấy PR title làm commit message.** PR title có tiền tố
-  `[COMPANY] [TARGET]` nên không đúng Conventional Commits. Soạn commit message
-  riêng theo skill `commit-convention`.
+
+**PR title không được trở thành commit message khi squash.** Nó có tiền tố
+`[COMPANY] [TARGET]` nên không đúng Conventional Commits.
+
+Cấu hình repo bắt buộc:
+
+```bash
+gh api -X PATCH repos/<owner>/<repo> \
+  -f squash_merge_commit_title=COMMIT_OR_PR_TITLE \
+  -f squash_merge_commit_message=COMMIT_MESSAGES
+```
+
+`COMMIT_OR_PR_TITLE` dùng subject của commit khi PR có **đúng 1 commit**, và
+rơi về PR title khi có nhiều hơn. Nên:
+
+| PR có gì | Subject khi squash | Phải làm |
+|---|---|---|
+| 1 commit | Subject của commit | Không cần làm gì — đã đúng chuẩn |
+| 2+ commit | PR title | **Sửa tay ô message lúc merge** |
+
+Ưu tiên mỗi PR một commit. PR nhiều commit thì người merge phải thay subject
+điền sẵn bằng message đúng Conventional Commits theo skill `commit-convention`.
 
 ---
 
