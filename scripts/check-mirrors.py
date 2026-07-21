@@ -18,6 +18,7 @@ Run: python3 scripts/check-mirrors.py
 """
 
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -32,6 +33,16 @@ VIETNAMESE = re.compile("[ăâđêôơưàáảãạằắẳẵặầấẩẫ�
                         "ĂÂĐÊÔƠƯÀÁẢÃẠẰẮẲẴẶẦẤẨẪẬÈÉẺẼẸỀẾỂỄỆ"
                         "ÌÍỈĨỊÒÓỎÕỌỒỐỔỖỘỜỚỞỠỢÙÚỦŨỤỪỨỬỮỰỲÝỶỸỴ]")
 SKIP = {"LICENSE", "package.json", ".gitignore"}
+
+
+def sources():
+    """Every published file that is expected to carry a translation."""
+    out = subprocess.run(["git", "ls-files"], cwd=ROOT,
+                         capture_output=True, text=True).stdout.split()
+    for rel in sorted(out):
+        if rel in SKIP or rel.startswith("docs/vi/"):
+            continue
+        yield rel
 
 
 def pairs():
@@ -58,6 +69,25 @@ def doc_headings(text):
     return [l.split(" ", 1)[0] for l in text.splitlines() if l.startswith("#")]
 
 
+# Keys whose values are prose meant for a human reader. Inside an issue form a
+# translated label is expected, so comparing those values would always fail.
+PROSE_KEYS = ("name", "description", "label", "placeholder", "about", "title")
+
+
+def form_skeleton(text):
+    """An issue form reduced to its field structure, with prose values dropped."""
+    out = []
+    for line in text.splitlines():
+        stripped = line.lstrip("- ").strip()
+        if stripped.startswith("#") or not stripped:
+            continue
+        key = stripped.split(":", 1)[0].strip()
+        if key in PROSE_KEYS and ":" in stripped:
+            line = line.split(":", 1)[0] + ":"
+        out.append(line)
+    return re.sub(r"\s+", " ", "\n".join(out)).strip()
+
+
 def code_skeleton(text, suffix):
     """The executable text, with comments and string literals blanked out."""
     if suffix == ".py":
@@ -82,6 +112,14 @@ if not VI.is_dir():
 
 failed = 0
 checked = 0
+
+# A translation that was never written is the failure this check exists to
+# catch. Walking docs/vi alone would never notice it.
+missing = [rel for rel in sources() if not (VI / rel).exists()]
+for rel in missing:
+    print(f"FAIL  {rel}: no translation under docs/vi/")
+    failed = 1
+
 for en_path, vi_path, rel in pairs():
     if rel in SKIP:
         continue
@@ -121,8 +159,11 @@ for en_path, vi_path, rel in pairs():
         else:
             print(f"ok    {rel}  ({len(en_t)} tokens, {len(en_h)} headings)")
     else:
-        a = code_skeleton(en_raw, en_path.suffix)
-        b = code_skeleton(vi_raw, en_path.suffix)
+        if rel.startswith(".github/ISSUE_TEMPLATE/"):
+            a, b = form_skeleton(en_raw), form_skeleton(vi_raw)
+        else:
+            a = code_skeleton(en_raw, en_path.suffix)
+            b = code_skeleton(vi_raw, en_path.suffix)
         if a != b:
             failed = 1
             print(f"FAIL  {rel}: code differs once comments and strings are removed")
