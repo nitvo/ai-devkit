@@ -1,0 +1,121 @@
+# Contributing
+
+Thanks for taking the time to contribute. This guide covers the workflow, the
+commit format and what the automated checks expect.
+
+## Before you start
+
+- Search existing issues and pull requests first.
+- Keep a change focused on one concern.
+- Update the documentation when behaviour or configuration changes.
+- Prefer small pull requests.
+
+## Branches
+
+This repository has a single long-lived branch, `main`. Fork the repository,
+branch from `main`, and open a pull request back to `main`.
+
+Name the branch after the Conventional Commits type of the change:
+
+| Pattern | Use case |
+|---|---|
+| `feat/<short-slug>` | New capability |
+| `fix/<short-slug>` | Bug fix |
+| `docs/<short-slug>` | Documentation only |
+| `refactor/<short-slug>` | Internal change with no behaviour change |
+| `ci/<short-slug>` | Workflow or automation change |
+| `chore/<short-slug>` | Maintenance |
+
+## Commit messages
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org) with
+three additional rules that `hooks/commit-msg` enforces:
+
+```text
+<type>(<scope>): <description>
+```
+
+1. **Scope is required.** The specification treats it as optional, this
+   repository does not. For a change spanning the repository, use a broad but
+   real scope such as `repo` or `setup`.
+2. **The description is entirely lowercase**, including product names and
+   acronyms. Write `install github cli`, never `install GitHub CLI`.
+3. **The whole subject stays within 72 characters.**
+
+Valid types: `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`,
+`chore`, `infra`, `revert`.
+
+Append `!` after the type for a breaking change, for example `feat(api)!:`.
+
+Trailers go in the last paragraph, using standard git capitalisation:
+
+```text
+Refs: #123
+Reviewed-by: Name
+Co-authored-by: Name <email>
+```
+
+Examples:
+
+```text
+feat(hooks): reject uppercase commit subjects
+fix(setup): scope skill install to claude code
+docs(readme): document the dry-run mode
+```
+
+## Writing style
+
+The same rules apply to code, comments, documentation, commit messages, pull
+requests, error strings and log lines. `scripts/check-diction.py` enforces them.
+
+- No praise or self-assessment: `awesome`, `powerful`, `seamless`, `clean`,
+  `simple`, `better`, `optimal`.
+- No filler: `just`, `simply`, `easily`, `very`, `significantly`, `greatly`.
+- No self-reference such as `this commit` or `this PR`.
+- A performance or reliability claim carries a number, or it is dropped.
+- Short sentences ending in a period. No em dash or semicolon joining clauses.
+- ASCII punctuation only. CLI status glyphs are the one exception, because they
+  carry information rather than decoration.
+
+## Running the checks locally
+
+The same three checks run in CI, so run them before opening a pull request:
+
+```bash
+sh hooks/test-commit-msg.sh     # 17 cases covering the commit hook
+python3 scripts/check-diction.py
+node --check setup.mjs
+```
+
+`scripts/check-mirrors.py` compares English files against translations under
+`docs/vi/`. That directory is a local reading aid and is not published, so the
+script exits quietly when it is absent.
+
+## Pull requests
+
+Fill in the template. Every section has a purpose:
+
+- **Description** states what changed and why.
+- **Changes** lists the change per file, never the path alone.
+- **Testing** holds real command output. Never tick a check that was not run.
+  Use `N/A` only when the change cannot affect runtime, such as documentation.
+
+Before requesting review:
+
+1. Rebase onto the latest `main`.
+2. Confirm the three checks above pass.
+3. Update the documentation for user-facing changes.
+
+## Review
+
+- At least one maintainer approval is required before merge.
+- Address review comments, or explain why a change is not needed.
+- Squash merge is the default. Because the pull request title becomes the
+  squash subject only when the pull request holds a single commit, prefer one
+  commit per pull request. Otherwise the person merging must replace the
+  pre-filled subject with a valid Conventional Commit.
+
+## Reporting problems
+
+Use GitHub issues for bugs and feature requests, with enough detail to
+reproduce. For security reports, follow [SECURITY.md](SECURITY.md).
