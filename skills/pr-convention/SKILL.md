@@ -18,14 +18,15 @@ repositories with no `CONTRIBUTING.md`. If the repository **does** have a
 Short-lived branches cut from the integration branch. `<TICKET>` is the ticket
 id (for example `PROJ-42`).
 
-The prefix is the **Conventional Commits type** of the change, the same word
-used in the commit. The `type:` label often uses a different word. See the
-mapping table below.
+Conventional Commits covers commit messages and says nothing about branch
+names, so these prefixes are a convention of this standard rather than a rule
+from the specification. They spell the word out where the commit type is
+abbreviated, which is why a `fix` commit lands on a `bugfix/` branch.
 
 | Pattern | Use case |
 |---|---|
-| `<type>/<TICKET>` | `feat/`, `fix/`, `docs/`, `refactor/`, `perf/`, `test/`, `ci/`, `build/`, `chore/` |
-| `<type>/<TICKET>_<M>` | Cherry-pick to the test branch. `M` is the delivery number, starting at `1`, incremented on each re-delivery after a fix |
+| `<prefix>/<TICKET>` | `feature/`, `bugfix/`, `docs/`, `refactor/`, `perf/`, `test/`, `ci/`, `build/`, `chore/` |
+| `<prefix>/<TICKET>_<M>` | Cherry-pick to the test branch. `M` is the delivery number, starting at `1`, incremented on each re-delivery after a fix |
 
 Example: `build/PROJ-8`, then `build/PROJ-8_1` for the cherry-pick.
 
@@ -128,14 +129,15 @@ three namespaces, no more and no less:
 
 #### Commit type to `type:` label
 
-The label vocabulary and the Conventional Commits vocabulary are **not the same
-words**. Never assume `feat` maps to `type: feat`. That label does not exist. Map like
+Branch prefix, commit type and label are three separate vocabularies. Only
+`docs`, `refactor`, `test`, `build`, `ci` and `chore` carry the same word
+through all three. Never assume `feat` maps to `type: feat`. That label does not exist. Map like
 this, then confirm the label actually exists in `gh label list`:
 
 | Commit type | Branch prefix | `type:` label |
 |---|---|---|
-| `feat` | `feat/` | `type: feature` |
-| `fix` | `fix/` | `type: bug` |
+| `feat` | `feature/` | `type: feature` |
+| `fix` | `bugfix/` | `type: bug` |
 | `perf` | `perf/` | `type: performance` |
 | `docs` | `docs/` | `type: docs` |
 | `refactor` | `refactor/` | `type: refactor` |

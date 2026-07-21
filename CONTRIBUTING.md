@@ -15,16 +15,28 @@ commit format and what the automated checks expect.
 This repository has a single long-lived branch, `main`. Fork the repository,
 branch from `main`, and open a pull request back to `main`.
 
-Name the branch after the Conventional Commits type of the change:
+Branches follow `<prefix>/<issue>`. Conventional Commits says nothing about
+branch names, so this is a convention of this repository rather than a rule from
+the specification. Prefixes spell the word out where the commit type is
+abbreviated, so a `fix` commit lands on a `bugfix/` branch. `<issue>` is the
+GitHub issue number, which serves as the ticket id here.
 
-| Pattern | Use case |
-|---|---|
-| `feat/<short-slug>` | New capability |
-| `fix/<short-slug>` | Bug fix |
-| `docs/<short-slug>` | Documentation only |
-| `refactor/<short-slug>` | Internal change with no behaviour change |
-| `ci/<short-slug>` | Workflow or automation change |
-| `chore/<short-slug>` | Maintenance |
+| Prefix | Commit type | Use case |
+|---|---|---|
+| `feature/` | `feat` | New capability |
+| `bugfix/` | `fix` | Bug fix |
+| `docs/` | `docs` | Documentation only |
+| `refactor/` | `refactor` | Internal change with no behaviour change |
+| `perf/` | `perf` | Performance improvement |
+| `test/` | `test` | Test addition or fix |
+| `ci/` | `ci` | Workflow or automation change |
+| `build/` | `build` | Build or dependency change |
+| `chore/` | `chore` | Maintenance |
+
+Example: `bugfix/42` for a branch resolving issue 42.
+
+Open an issue before starting if none exists. It gives the branch its number and
+the change a place to be discussed.
 
 ## Commit messages
 
