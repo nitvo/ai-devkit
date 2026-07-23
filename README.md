@@ -71,8 +71,10 @@ are satisfied.
   symlinks are unreliable on Windows.
 - **Ponytail config path** follows the platform, either `~/.config/ponytail` or
   `%APPDATA%\ponytail`.
-- **CLAUDE.md**: a personal copy is never overwritten. The shared version is
-  written to `~/.claude/CLAUDE.shared.md` for you to merge.
+- **CLAUDE.md** is always overwritten, because the shared file is the standard
+  and a rerun must bring the machine back to it. Any existing file is copied to
+  `~/.claude/CLAUDE.md.backup-<timestamp>` first, so personal notes are
+  recoverable. Keep such notes in a separate file rather than in `CLAUDE.md`.
 
 ## Verifying the install
 

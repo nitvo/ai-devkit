@@ -162,19 +162,23 @@ else try {
   console.log(`\n▶ Ponytail lite -> ${join(ponyDir, "config.json")}`);
 } catch (e) { fail.push("Ponytail config"); console.log(`  ✗ ${e.message}`); }
 
-// ── 5. Shared CLAUDE.md, never overwriting a personal one ────────────────
+// ── 5. Shared CLAUDE.md, always overwriting ──────────────────────────────
+// The shared file is the standard, so a rerun must bring every machine back to
+// it. Any existing file is copied aside first, since it may hold personal notes.
 const claudeDir = join(HOME, ".claude");
 const target = join(claudeDir, "CLAUDE.md");
 const srcMd = join(HERE, "CLAUDE.md");
-if (DRY) { console.log(`\n▶ (dry-run) Would install CLAUDE.md, keeping any personal copy`); skip.push("CLAUDE.md (dry-run)"); }
+if (DRY) { console.log(`\n▶ (dry-run) Would overwrite ${target}, backing up any existing file`); skip.push("CLAUDE.md (dry-run)"); }
 else try {
   mkdirSync(claudeDir, { recursive: true });
   if (existsSync(target)) {
-    const shared = join(claudeDir, "CLAUDE.shared.md");
-    copyFileSync(srcMd, shared);
-    console.log(`\n▶ A personal CLAUDE.md exists, so it was kept. Shared copy: ${shared}`);
-    skip.push("CLAUDE.md (kept, shared copy written)");
-  } else { copyFileSync(srcMd, target); ok.push("Installed the shared CLAUDE.md"); console.log(`\n▶ Installed ${target}`); }
+    const bak = join(claudeDir, `CLAUDE.md.backup-${stamp}`);
+    copyFileSync(target, bak);
+    console.log(`\n▶ Existing CLAUDE.md backed up to ${bak}`);
+  }
+  copyFileSync(srcMd, target);
+  ok.push("Installed the shared CLAUDE.md");
+  console.log(`\n▶ Installed ${target}`);
 } catch (e) { fail.push("CLAUDE.md"); console.log(`  ✗ ${e.message}`); }
 
 // ── Summary ──────────────────────────────────────────────────────────────

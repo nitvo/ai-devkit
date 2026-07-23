@@ -44,7 +44,8 @@ Running `node setup.mjs` in sync mode:
   `core.hooksPath` globally, which applies to every repository on the machine.
 - Installs the ponytail plugin and the chrome-devtools MCP server.
 - Writes `~/.config/ponytail/config.json`.
-- Writes `~/.claude/CLAUDE.md` only when no personal copy exists.
+- Overwrites `~/.claude/CLAUDE.md`, after copying any existing file to
+  `~/.claude/CLAUDE.md.backup-<timestamp>`.
 
 Run `node setup.mjs --dry-run` first to see the exact list without changing
 anything.
